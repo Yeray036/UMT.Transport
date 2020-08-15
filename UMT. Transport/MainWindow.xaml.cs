@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UMT.Transport.Pages;
 
 namespace UMT.Transport
 {
@@ -23,6 +24,12 @@ namespace UMT.Transport
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void NewWeekBtn(object sender, RoutedEventArgs e)
+        {
+            NewWeekPlanning newWeekPage = new NewWeekPlanning();
+            MainFrame.Navigate(newWeekPage);
         }
     }
 }
