@@ -15,18 +15,20 @@ namespace UMT.Transport.Classes
 {
     public class SqliteHandler
     {
+        //Connection string.
         private static string LoadConnectionString(string id = "UmtDb")
         {
             return ConfigurationManager.ConnectionStrings[id].ConnectionString;
         }
 
+        //Load all employees that work on the selected calendar date.
         public static List<PersonModel> LoadEmployeesOnDate(string datum)
         {
             try
             {
                 using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
                 {
-                    var output = cnn.Query<PersonModel>($"select Naam, Achternaam, PersNr, Datum, Begin_tijd from WerkDagen inner join Personeel on WerkDagen.PersId = Personeel.PersNr where WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                    var output = cnn.Query<PersonModel>($"select Naam, Achternaam, PersNr, Datum, Begin_tijd, Jaar from WerkDagen inner join Personeel on WerkDagen.PersId = Personeel.PersNr where WerkDagen.Datum = '{datum}'", new DynamicParameters());
                     return output.ToList();
                 }
             }
@@ -37,6 +39,7 @@ namespace UMT.Transport.Classes
             }
         }
 
+        //LoadAllEmployeesNames from db.
         public static List<string> LoadAllEmployeesOnName()
         {
             try
@@ -54,6 +57,7 @@ namespace UMT.Transport.Classes
             }
         }
 
+        //Load Employee(s) Lastname using the firstname from db.
         public static List<string> LoadAllEmployeesOnLastName(string Name)
         {
             try
@@ -71,6 +75,7 @@ namespace UMT.Transport.Classes
             }
         }
 
+        //Load employee id from lastname string out of the db.
         public static List<string> LoadEmployeePersNr(string LastName)
         {
             try
@@ -89,11 +94,19 @@ namespace UMT.Transport.Classes
             }
         }
 
-        public static void SaveEmployee(PersonModel employee)
-        {
-            using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
-            {
 
+        public static void SaveNewEmployeeWorkDay(PersonModel employee)
+        {
+            try
+            {
+                using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+                {
+                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, PersId) values (@Datum, @Jaar, @Begin_tijd, @PersNr)", employee);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Je hebt {employee.PersNr} al om {employee.Begin_tijd} ingepland op {employee.Datum}-{employee.Jaar}");
             }
         }
     }

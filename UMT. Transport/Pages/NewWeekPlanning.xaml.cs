@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -23,24 +25,48 @@ namespace UMT.Transport.Pages
     public partial class NewWeekPlanning : Page
     {
         List<PersonModel> employees = new List<PersonModel>();
+        public static DateTime year;
+        public static Calendar calendar;
 
         public NewWeekPlanning()
         {
             InitializeComponent();
-            NameFieldComboBox.ItemsSource = SqliteHandler.LoadAllEmployeesOnName();
+            List<string> names = new List<string>();
+            foreach (var item in SqliteHandler.LoadAllEmployeesOnName())
+            {
+                if (names.Contains(item))
+                {
+                    continue;
+                }
+                else
+                {
+                    names.Add(item);
+                }
+            }
+            NameFieldComboBox.ItemsSource = names;
         }
 
-        private void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
+        private async void Calendar_SelectedDatesChanged(object sender, SelectionChangedEventArgs e)
         {
-            var calendar = sender as Calendar;
+            calendar = sender as Calendar;
 
+            if (calendar.SelectedDate.HasValue)
+            {
+                await Task.Run(() => Dispatcher.BeginInvoke(
+                    new ThreadStart(async () => await LoadDataGridFromDate(calendar))));
+            }
+        }
+
+        private async Task LoadDataGridFromDate(Calendar calendar)
+        {
             if (calendar.SelectedDate.HasValue)
             {
                 employees.Clear();
                 DayDataGrid.ItemsSource = null;
                 DateTime date = calendar.SelectedDate.Value;
                 this.DatumInputBox.Text = $"{date.Day}-{date.Month}";
-                employees = SqliteHandler.LoadEmployeesOnDate($"{date.Day}-{date.Month}");
+                year = calendar.SelectedDate.Value;
+                employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Day}-{date.Month}"));
                 DayDataGrid.ItemsSource = employees;
             }
         }
@@ -68,6 +94,39 @@ namespace UMT.Transport.Pages
                     LastNameFieldComboBox.ItemsSource = LastName;
                     LastNameFieldComboBox.Text = LastName[0];
                 }
+            }
+        }
+
+        private async void AddNewWorkDayBtn_Click(object sender, RoutedEventArgs e)
+        {
+            PersonModel employee = new PersonModel();
+
+            employee.Datum = this.DatumInputBox.Text;
+            employee.Jaar = $"{year.Year}";
+            employee.Begin_tijd = this.BeginTimeFieldComboBox.Text;
+            if (this.PersNrTextField.Text != String.Empty && employee.Begin_tijd != String.Empty)
+            {
+                employee.PersNr = int.Parse(this.PersNrTextField.Text);
+            }
+            else
+            {
+                employee.PersNr = -1;
+            }
+            if (employee.PersNr != -1 && employee.Datum != String.Empty)
+            {
+                SqliteHandler.SaveNewEmployeeWorkDay(employee);
+                await Task.Run(() => Dispatcher.BeginInvoke(
+                    new ThreadStart(async () => await LoadDataGridFromDate(calendar))));
+                this.NameFieldComboBox.Text = "";
+                this.LastNameFieldComboBox.Text = "";
+                this.PersNrTextField.Text = "";
+                this.BeginTimeFieldComboBox.Text = "";
+                this.EndTimeFieldComboBox.Text = "";
+            }
+            else
+            {
+                MessageBox.Show("Geen geldige werkdag data ingevoerd.");
+                return;
             }
         }
     }

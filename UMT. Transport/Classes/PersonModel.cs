@@ -13,5 +13,6 @@ namespace UMT.Transport.Classes
         public int PersNr { get; set; }
         public string Datum { get; set; }
         public string Begin_tijd { get; set; }
+        public string Jaar { get; set; }
     }
 }
