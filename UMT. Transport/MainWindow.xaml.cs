@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UMT.Transport.Pages;
+using UMT.Transport.UserControls;
 
 namespace UMT.Transport
 {
@@ -21,15 +22,44 @@ namespace UMT.Transport
     /// </summary>
     public partial class MainWindow : Window
     {
+        UcDepots ucDepots = new UcDepots();
+        public static MainWindow mainWindow { get; set; }
+
         public MainWindow()
         {
             InitializeComponent();
+            mainWindow = this;
+            mainWindow.MainMenuControls.Children.Add(ucDepots);
         }
 
+        /*
         private void NewWeekBtn(object sender, RoutedEventArgs e)
         {
             NewWeekPlanning newWeekPage = new NewWeekPlanning();
-            MainFrame.Navigate(newWeekPage);
+            if (MainFrame.CanGoBack)
+            {
+                MainFrame.RemoveBackEntry();
+                MainFrame.Navigate(newWeekPage);
+            }
+            else
+            {
+                MainFrame.Navigate(newWeekPage);
+            }
         }
+
+        private void MonthlyOverviewBtn_Click(object sender, RoutedEventArgs e)
+        {
+            MonthlyOverview monthlyOverview = new MonthlyOverview();
+            if (MainFrame.CanGoBack)
+            {
+                MainFrame.RemoveBackEntry();
+                MainFrame.Navigate(monthlyOverview);
+            }
+            else
+            {
+                MainFrame.Navigate(monthlyOverview);
+            }
+        }
+        */
     }
 }

@@ -27,11 +27,13 @@ namespace UMT.Transport.Pages
         List<PersonModel> employees = new List<PersonModel>();
         public static DateTime year;
         public static Calendar calendar;
+        public static DateTime DayAndMonth;
 
         public NewWeekPlanning()
         {
             InitializeComponent();
             List<string> names = new List<string>();
+            
             foreach (var item in SqliteHandler.LoadAllEmployeesOnName())
             {
                 if (names.Contains(item))
@@ -64,9 +66,10 @@ namespace UMT.Transport.Pages
                 employees.Clear();
                 DayDataGrid.ItemsSource = null;
                 DateTime date = calendar.SelectedDate.Value;
-                this.DatumInputBox.Text = $"{date.Day}-{date.Month}";
+                DayAndMonth = calendar.SelectedDate.Value;
+                this.DatumInputBox.Text = $"{date.Day}-{date.Month}-{date.Year}";
                 year = calendar.SelectedDate.Value;
-                employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Day}-{date.Month}"));
+                employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Day}-{date.Month}", $"{date.Year}"));
                 DayDataGrid.ItemsSource = employees;
             }
         }
@@ -101,7 +104,7 @@ namespace UMT.Transport.Pages
         {
             PersonModel employee = new PersonModel();
 
-            employee.Datum = this.DatumInputBox.Text;
+            employee.Datum = $"{DayAndMonth.Day}-{DayAndMonth.Month}";
             employee.Jaar = $"{year.Year}";
             employee.Begin_tijd = this.BeginTimeFieldComboBox.Text;
             if (this.PersNrTextField.Text != String.Empty && employee.Begin_tijd != String.Empty)

@@ -89,6 +89,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="UserControls\UcDepots.xaml.cs">
+      <DependentUpon>UcDepots.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UcFunctions.xaml.cs">
+      <DependentUpon>UcFunctions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\UcPlanningOptions.xaml.cs">
+      <DependentUpon>UcPlanningOptions.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -103,12 +112,31 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Pages\MonthlyOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\NewWeekPlanning.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UcDepots.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UcFunctions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UserControls\UcPlanningOptions.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\MonthlyOverview.xaml.cs">
+      <DependentUpon>MonthlyOverview.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\NewWeekPlanning.xaml.cs">
       <DependentUpon>NewWeekPlanning.xaml</DependentUpon>
     </Compile>

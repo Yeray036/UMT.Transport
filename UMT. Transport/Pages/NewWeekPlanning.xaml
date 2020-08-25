@@ -26,12 +26,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Calendar Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" SelectedDatesChanged="Calendar_SelectedDatesChanged"/>
+        <Calendar Grid.Column="0" Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Stretch" SelectedDatesChanged="Calendar_SelectedDatesChanged" SelectionMode="SingleDate"/>
 
         <StackPanel Grid.Column="0" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Orientation="Vertical" Margin="0,10,0,0">
             <ComboBox materialDesign:HintAssist.Hint="Naam" x:Name="NameFieldComboBox" Margin="0,0,0,10" SelectionChanged="PlaceLastNameInField"/>
             <ComboBox materialDesign:HintAssist.Hint="Achternaam" x:Name="LastNameFieldComboBox" Margin="0,0,0,10" SelectionChanged="PlacePersNrInField"/>
-            <TextBox materialDesign:HintAssist.Hint="Personeels nummer" Foreground="White" Margin="0,0,0,10" x:Name="PersNrTextField"/>
+            <TextBox materialDesign:HintAssist.Hint="Personeelsnummer" Foreground="White" Margin="0,0,0,10" x:Name="PersNrTextField"/>
             <TextBox materialDesign:HintAssist.Hint="Datum: " Foreground="White" Margin="0,0,0,10" x:Name="DatumInputBox"/>
             <ComboBox materialDesign:HintAssist.Hint="Begin tijd:" x:Name="BeginTimeFieldComboBox" Margin="0,0,0,10">
                 <ComboBoxItem Content="10:00"/>
