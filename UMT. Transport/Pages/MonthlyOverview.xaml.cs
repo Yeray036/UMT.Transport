@@ -27,6 +27,9 @@ namespace UMT.Transport.Pages
         public static System.Windows.Controls.Calendar calendar;
         List<PersonModel> employees = new List<PersonModel>();
         List<AllEmployeesPerDepot> AllEmployees = new List<AllEmployeesPerDepot>();
+        List<int> selectedDayFromWeek;
+        List<int> selectedMonthFromWeek;
+        DateTime year;
 
         public MonthlyOverview()
         {
@@ -51,14 +54,14 @@ namespace UMT.Transport.Pages
                 employees.Clear();
                 AllEmployees.Clear();
                 MonthlyOverviewDataGrid.ItemsSource = null;
-                List<int> selectedDayFromWeek = new List<int>();
-                List<int> selectedMonthFromWeek = new List<int>();
+                selectedDayFromWeek = new List<int>();
+                selectedMonthFromWeek = new List<int>();
                 foreach (var day in calendar.SelectedDates)
                 {
                     selectedDayFromWeek.Add(day.Day);
                     selectedMonthFromWeek.Add(day.Month);
                 }
-                DateTime year = calendar.SelectedDate.Value;
+                year = calendar.SelectedDate.Value;
                 if (UcFunctions.SelectedFunction == "AllEmployees")
                 {
                     AllEmployees = await Task.Run(() => SqliteHandler.LoadEmployeesOnWeek($"{selectedDayFromWeek[0]}-{selectedMonthFromWeek[0]}", $"{selectedDayFromWeek[selectedDayFromWeek.Count - 1]}-{selectedMonthFromWeek[selectedMonthFromWeek.Count - 1]}", $"{year.Year}"));
@@ -83,6 +86,26 @@ namespace UMT.Transport.Pages
                         MonthlyOverviewDataGrid.ItemsSource = employees;
                     }
                 }
+            }
+        }
+
+        private void PrintDataGrid_Btn(object sender, RoutedEventArgs e)
+        {
+            if (MonthlyOverviewDataGrid.ItemsSource != null)
+            {
+                PrintDialog Printdlg = new PrintDialog();
+                if ((bool)Printdlg.ShowDialog().GetValueOrDefault())
+                {
+                    Size pageSize = new Size(Printdlg.PrintableAreaWidth, Printdlg.PrintableAreaHeight);
+                    // sizing of the element.
+                    MonthlyOverviewDataGrid.Measure(pageSize);
+                    MonthlyOverviewDataGrid.Arrange(new Rect(5, 5, pageSize.Width, pageSize.Height));
+                    Printdlg.PrintVisual(MonthlyOverviewDataGrid, $"Planning van {selectedDayFromWeek[0]}-{selectedMonthFromWeek[0]} tot {selectedDayFromWeek[selectedDayFromWeek.Count - 1]}-{selectedMonthFromWeek[selectedMonthFromWeek.Count - 1]} {year.Year}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Een lege pagina kan je niet printen!");
             }
         }
     }

@@ -37,7 +37,7 @@
         <DataGrid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" x:Name="MonthlyOverviewDataGrid">
         </DataGrid>
 
-        <Button Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right">
+        <Button Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Click="PrintDataGrid_Btn">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <materialDesign:PackIcon Kind="Printer" Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="Print" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>
