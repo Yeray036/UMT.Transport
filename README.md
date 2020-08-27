@@ -1,8 +1,29 @@
 # UMT.Transport
 Umit transport, Bilthoven
 
+CURRENT CODE COUNT:
+===================
+      1310
+===================
+
+====26-8-2020====
+Added:
+
+SQLite handler updated
+- can now see if person is Courier, Depot employee or sort employee. based on the selected work it will let you see the new days or selected days of that kind of work.
+
+Usercontrols:
+1. Choose Depot
+2. Choose Work
+3. Choose options to do for the selected work.
+
+Also SqliteDB has been updated with new forgein keys and constrains same as Unqiue bindings.
+
+=================
+
 ====16-8-2020====
 Added:
+
 PersonModal class now has Start time and year.
 
 SqliteHandler updated:
