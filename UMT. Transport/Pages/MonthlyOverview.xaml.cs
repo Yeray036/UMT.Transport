@@ -15,6 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using UMT.Transport.Classes;
+using UMT.Transport.UserControls;
 
 namespace UMT.Transport.Pages
 {
@@ -25,6 +26,7 @@ namespace UMT.Transport.Pages
     {
         public static System.Windows.Controls.Calendar calendar;
         List<PersonModel> employees = new List<PersonModel>();
+        List<AllEmployeesPerDepot> AllEmployees = new List<AllEmployeesPerDepot>();
 
         public MonthlyOverview()
         {
@@ -47,6 +49,7 @@ namespace UMT.Transport.Pages
             if (calendar.SelectedDates.Count > 1)
             {
                 employees.Clear();
+                AllEmployees.Clear();
                 MonthlyOverviewDataGrid.ItemsSource = null;
                 List<int> selectedDayFromWeek = new List<int>();
                 List<int> selectedMonthFromWeek = new List<int>();
@@ -56,8 +59,30 @@ namespace UMT.Transport.Pages
                     selectedMonthFromWeek.Add(day.Month);
                 }
                 DateTime year = calendar.SelectedDate.Value;
-                employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnWeek($"{selectedDayFromWeek[0]}-{selectedMonthFromWeek[0]}", $"{selectedDayFromWeek[selectedDayFromWeek.Count - 1]}-{selectedMonthFromWeek[selectedMonthFromWeek.Count - 1]}", $"{year.Year}"));
-                MonthlyOverviewDataGrid.ItemsSource = employees;
+                if (UcFunctions.SelectedFunction == "AllEmployees")
+                {
+                    AllEmployees = await Task.Run(() => SqliteHandler.LoadEmployeesOnWeek($"{selectedDayFromWeek[0]}-{selectedMonthFromWeek[0]}", $"{selectedDayFromWeek[selectedDayFromWeek.Count - 1]}-{selectedMonthFromWeek[selectedMonthFromWeek.Count - 1]}", $"{year.Year}"));
+                    if (AllEmployees.Count <= 0)
+                    {
+                        MessageBox.Show("Geen geplande data gevonden");
+                    }
+                    else
+                    {
+                        MonthlyOverviewDataGrid.ItemsSource = AllEmployees;
+                    }
+                }
+                else
+                {
+                    employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnWeek($"{selectedDayFromWeek[0]}-{selectedMonthFromWeek[0]}", $"{selectedDayFromWeek[selectedDayFromWeek.Count - 1]}-{selectedMonthFromWeek[selectedMonthFromWeek.Count - 1]}", $"{year.Year}"));
+                    if (employees.Count <= 0)
+                    {
+                        MessageBox.Show("Geen geplande data gevonden");
+                    }
+                    else
+                    {
+                        MonthlyOverviewDataGrid.ItemsSource = employees;
+                    }
+                }
             }
         }
     }

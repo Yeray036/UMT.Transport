@@ -56,5 +56,19 @@ namespace UMT.Transport.UserControls
                 MainWindow.mainWindow.MainFrame.Navigate(newWeekPage);
             }
         }
+
+        private void OpenMonthlyOverviewPage(object sender, RoutedEventArgs e)
+        {
+            MonthlyOverview monthlyOverview = new MonthlyOverview();
+            if (MainWindow.mainWindow.MainFrame.CanGoBack)
+            {
+                MainWindow.mainWindow.MainFrame.RemoveBackEntry();
+                MainWindow.mainWindow.MainFrame.Navigate(monthlyOverview);
+            }
+            else
+            {
+                MainWindow.mainWindow.MainFrame.Navigate(monthlyOverview);
+            }
+        }
     }
 }

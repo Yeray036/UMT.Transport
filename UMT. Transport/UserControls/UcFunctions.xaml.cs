@@ -45,12 +45,14 @@ namespace UMT.Transport.UserControls
             if (MainWindow.mainWindow.MainMenuControls.Children.Count >= 1)
             {
                 MainWindow.mainWindow.MainMenuControls.Children.Clear();
+                UcPlanningOptions.ucPlanningOptions.FunctieInfoText.Text = "Functie: Bezorger";
                 SelectedFunction = "Bezorger";
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcPlanningOptions.ucPlanningOptions);
             }
             else
             {
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcPlanningOptions.ucPlanningOptions);
+                UcPlanningOptions.ucPlanningOptions.FunctieInfoText.Text = "Functie: Bezorger";
                 SelectedFunction = "Bezorger";
             }
         }
@@ -60,12 +62,14 @@ namespace UMT.Transport.UserControls
             if (MainWindow.mainWindow.MainMenuControls.Children.Count >= 1)
             {
                 MainWindow.mainWindow.MainMenuControls.Children.Clear();
+                UcPlanningOptions.ucPlanningOptions.FunctieInfoText.Text = "Functie: Depot werk";
                 SelectedFunction = "DepotWerk";
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcPlanningOptions.ucPlanningOptions);
             }
             else
             {
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcPlanningOptions.ucPlanningOptions);
+                UcPlanningOptions.ucPlanningOptions.FunctieInfoText.Text = "Functie: Depot werk";
                 SelectedFunction = "DepotWerk";
             }
         }
@@ -75,12 +79,14 @@ namespace UMT.Transport.UserControls
             if (MainWindow.mainWindow.MainMenuControls.Children.Count >= 1)
             {
                 MainWindow.mainWindow.MainMenuControls.Children.Clear();
+                UcPlanningOptions.ucPlanningOptions.FunctieInfoText.Text = "Functie: Sorteer werk";
                 SelectedFunction = "SorteerWerk";
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcPlanningOptions.ucPlanningOptions);
             }
             else
             {
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcPlanningOptions.ucPlanningOptions);
+                UcPlanningOptions.ucPlanningOptions.FunctieInfoText.Text = "Functie: Sorteer werk";
                 SelectedFunction = "SorteerWerk";
             }
         }
@@ -90,12 +96,14 @@ namespace UMT.Transport.UserControls
             if (MainWindow.mainWindow.MainMenuControls.Children.Count >= 1)
             {
                 MainWindow.mainWindow.MainMenuControls.Children.Clear();
+                UcPlanningOptions.ucPlanningOptions.FunctieInfoText.Text = "Functie: Alle medewerkers";
                 SelectedFunction = "AllEmployees";
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcPlanningOptions.ucPlanningOptions);
             }
             else
             {
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcPlanningOptions.ucPlanningOptions);
+                UcPlanningOptions.ucPlanningOptions.FunctieInfoText.Text = "Functie: Alle medewerkers";
                 SelectedFunction = "AllEmployees";
             }
         }
