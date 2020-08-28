@@ -24,12 +24,7 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="10,0,0,0" Grid.Row="0" Grid.Column="0">
-            <Button HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,10,0,0" Background="#263238" BorderBrush="#263238" Click="NewWeekBtn">
-                <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
-                    <materialDesign:PackIcon Kind="Calendar" Margin="0,0,5,0" Foreground="White"/>
-                    <TextBlock Text="Nieuwe week" Foreground="White"/>
-                </StackPanel>
-            </Button>
+            <WrapPanel Name="MainMenuControls" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         </StackPanel>
 
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0">
