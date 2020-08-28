@@ -26,6 +26,8 @@ namespace UMT.Transport.UserControls
         public UcPlanningOptions()
         {
             InitializeComponent();
+            DepotName.Text = UcFunctions.ucFunctions.DepotName.Text;
+
         }
 
         private void Back_Btn(object sender, RoutedEventArgs e)

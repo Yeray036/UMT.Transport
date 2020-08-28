@@ -21,6 +21,7 @@
                     <materialDesign:PackIcon Kind="ArrowBack" Margin="0,0,5,0" Foreground="White"/>
                 </StackPanel>
             </Button>
+            <TextBlock x:Name="DepotName" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,10,0,0" Foreground="White"/>
             <TextBlock x:Name="FunctieInfoText" HorizontalAlignment="Stretch" VerticalAlignment="Center" Margin="0,10,0,0" Foreground="White"/>
             <Button HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,10,0,0" Background="#263238" BorderBrush="#263238" Click="OpenNewWeekPlanning">
                 <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">

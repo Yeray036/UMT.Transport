@@ -23,21 +23,18 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="auto"/>
         </Grid.RowDefinitions>
- 
+
         <Viewbox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <Calendar SelectionMode="MultipleRange" SelectedDatesChanged="ShowWeekWorkDays_calendar"/>
         </Viewbox>
-
-        <TextBlock Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" Text="Waar 'Ø' gemarkeerd staat betekent dat het werk niet gedaan wordt door - Bezorger, Depot-en/of sorteerpersoneel." FontSize="18" HorizontalAlignment="Left" VerticalAlignment="Center" TextWrapping="Wrap" Foreground="LimeGreen"/>
-
-        <DataGrid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="2" x:Name="MonthlyOverviewDataGrid">
+        
+        <DataGrid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" x:Name="MonthlyOverviewDataGrid" CanUserAddRows="False">
         </DataGrid>
 
-        <Button Grid.Column="2" Grid.Row="3" HorizontalAlignment="Right" Click="PrintDataGrid_Btn">
+        <Button Grid.Column="2" Grid.Row="2" HorizontalAlignment="Right" Click="PrintDataGrid_Btn">
             <StackPanel Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <materialDesign:PackIcon Kind="Printer" Width="50" Height="25" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                 <TextBlock Text="Print" FontSize="22" HorizontalAlignment="Center" VerticalAlignment="Center"/>

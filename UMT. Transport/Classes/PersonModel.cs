@@ -23,14 +23,14 @@ namespace UMT.Transport.Classes
         public string Bedrijfs_Naam { get; set; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
-        public int PersNr { get; set; }
+        public string PersNr { get; set; }
         public string Datum { get; set; }
         public string Jaar { get; set; }
         public string Begin_tijd { get; set; }
         public string Eind_tijd { get; set; }
-        public int Bezorger { get; set; }
-        public int Depot_personeel { get; set; }
-        public int Sorteer_personeel { get; set; }
+        public string Bezorger { get; set; }
+        public string Depot_personeel { get; set; }
+        public string Sorteer_personeel { get; set; }
     }
 
     public class Functions

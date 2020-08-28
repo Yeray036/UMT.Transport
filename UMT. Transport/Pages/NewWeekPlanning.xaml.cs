@@ -181,19 +181,22 @@ namespace UMT.Transport.Pages
                 PersNrTextField.Text = PersNr[0];
                 List<string> employeeFunctions = new List<string>();
                 FunctieNames();
-                if (FunctieNames()[0].Bezorger != 0)
+                if (FunctieNames() != null)
                 {
-                    employeeFunctions.Add("Bezorger");
+                    if (FunctieNames()[0].Bezorger != 0)
+                    {
+                        employeeFunctions.Add("Bezorger");
+                    }
+                    if (FunctieNames()[0].Depot_personeel != 0)
+                    {
+                        employeeFunctions.Add("Depot_personeel");
+                    }
+                    if (FunctieNames()[0].Sorteer_personeel != 0)
+                    {
+                        employeeFunctions.Add("Sorteer_personeel");
+                    }
+                    FunctieFieldComboBox.ItemsSource = employeeFunctions;
                 }
-                if (FunctieNames()[0].Depot_personeel != 0)
-                {
-                    employeeFunctions.Add("Depot_personeel");
-                }
-                if (FunctieNames()[0].Sorteer_personeel != 0)
-                {
-                    employeeFunctions.Add("Sorteer_personeel");
-                }
-                FunctieFieldComboBox.ItemsSource = employeeFunctions;
             }
         }
 
@@ -231,13 +234,13 @@ namespace UMT.Transport.Pages
                 allEmployees.Eind_tijd = this.EndTimeFieldComboBox.Text;
                 if (this.PersNrTextField.Text != String.Empty && allEmployees.Begin_tijd != String.Empty)
                 {
-                    allEmployees.PersNr = int.Parse(this.PersNrTextField.Text);
+                    allEmployees.PersNr = this.PersNrTextField.Text;
                 }
                 else
                 {
-                    allEmployees.PersNr = -1;
+                    allEmployees.PersNr = "-1";
                 }
-                if (allEmployees.PersNr != -1 && allEmployees.Datum != String.Empty)
+                if (allEmployees.PersNr != "-1" && allEmployees.Datum != String.Empty)
                 {
                     switch (FunctieFieldComboBox.SelectedItem)
                     {
@@ -253,7 +256,7 @@ namespace UMT.Transport.Pages
                         default:
                             break;
                     }
-                    if (allEmployees.Bezorger == 0 && allEmployees.Depot_personeel == 0 && allEmployees.Sorteer_personeel == 0)
+                    if (allEmployees.Bezorger == "0" || allEmployees.Bezorger == string.Empty && allEmployees.Depot_personeel == "0" || allEmployees.Depot_personeel == string.Empty && allEmployees.Sorteer_personeel == "0" || allEmployees.Sorteer_personeel == string.Empty)
                     {
                         MessageBox.Show("Je bent de functie vergeten");
                         return;
