@@ -158,16 +158,16 @@ namespace UMT.Transport.Pages
                 DayDataGrid.ItemsSource = null;
                 DateTime date = calendar.SelectedDate.Value;
                 DayAndMonth = calendar.SelectedDate.Value;
-                this.DatumInputBox.Text = $"{date.Day}-{date.Month}-{date.Year}";
+                this.DatumInputBox.Text = $"{date.Year}-{date.Month}-{date.Day}";
                 year = calendar.SelectedDate.Value;
                 if (UcFunctions.SelectedFunction == "AllEmployees")
                 {
-                    AllEmployees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Day}-{date.Month}", $"{date.Year}"));
+                    AllEmployees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Year}-{date.Month}-{date.Day}"));
                     DayDataGrid.ItemsSource = AllEmployees;
                 }
                 else
                 {
-                    employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Day}-{date.Month}", $"{date.Year}"));
+                    employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Year}-{date.Month}-{date.Day}"));
                     DayDataGrid.ItemsSource = employees;
                 }
             }
@@ -228,8 +228,7 @@ namespace UMT.Transport.Pages
             {
                 AllEmployeesPerDepot allEmployees = new AllEmployeesPerDepot();
 
-                allEmployees.Datum = $"{DayAndMonth.Day}-{DayAndMonth.Month}";
-                allEmployees.Jaar = $"{year.Year}";
+                allEmployees.Datum = $"{year.Year}-{DayAndMonth.Month}-{DayAndMonth.Day}";
                 allEmployees.Begin_tijd = this.BeginTimeFieldComboBox.Text;
                 allEmployees.Eind_tijd = this.EndTimeFieldComboBox.Text;
                 if (this.PersNrTextField.Text != String.Empty && allEmployees.Begin_tijd != String.Empty)
@@ -284,8 +283,7 @@ namespace UMT.Transport.Pages
             {
                 PersonModel employee = new PersonModel();
 
-                employee.Datum = $"{DayAndMonth.Day}-{DayAndMonth.Month}";
-                employee.Jaar = $"{year.Year}";
+                employee.Datum = $"{year.Year}-{DayAndMonth.Month}-{DayAndMonth.Day}";
                 employee.Begin_tijd = this.BeginTimeFieldComboBox.Text;
                 employee.Eind_tijd = this.EndTimeFieldComboBox.Text;
                 if (this.PersNrTextField.Text != String.Empty && employee.Begin_tijd != String.Empty)

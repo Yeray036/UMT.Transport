@@ -24,11 +24,11 @@
         </Grid.RowDefinitions>
 
         <StackPanel Margin="10,0,0,0" Grid.Row="0" Grid.Column="0">
-            <WrapPanel Name="MainMenuControls" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+            <WrapPanel Name="MainMenuControls" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0"/>
         </StackPanel>
 
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" Grid.Column="1" Grid.Row="0">
-            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="200" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch"/>
+            <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden" Panel.ZIndex="200" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch" Margin="10"/>
         </ScrollViewer>
         
     </Grid>

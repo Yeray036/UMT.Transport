@@ -93,6 +93,7 @@ namespace UMT.Transport.Pages
         {
             if (MonthlyOverviewDataGrid.ItemsSource != null)
             {
+                MessageBox.Show("Voor dat je gaat printen zorg ervoor dat je in landscape 'LIGGEND' print.");
                 PrintDialog Printdlg = new PrintDialog();
                 if ((bool)Printdlg.ShowDialog().GetValueOrDefault())
                 {

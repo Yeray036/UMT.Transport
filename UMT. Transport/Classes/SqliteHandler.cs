@@ -24,7 +24,7 @@ namespace UMT.Transport.Classes
         }
 
         //Load all employees that work on the selected calendar date.
-        public static dynamic LoadEmployeesOnDate(string datum, string year)
+        public static dynamic LoadEmployeesOnDate(string datum)
         {
             try
             {
@@ -36,16 +36,16 @@ namespace UMT.Transport.Classes
                             switch (UcFunctions.SelectedFunction)
                             {
                                 case "Bezorger":
-                                    var outputBilthovenBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Jaar from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Bilthoven = Functie.Bezorger and WerkDagen.Datum = '{datum}' and WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputBilthovenBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Bilthoven = Functie.Bezorger and WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     return outputBilthovenBezorger.ToList();
                                 case "DepotWerk":
-                                    var outputBilthovenDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Jaar from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Bilthoven = Functie.Depot_personeel and WerkDagen.Datum = '{datum}' and WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputBilthovenDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Bilthoven = Functie.Depot_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     return outputBilthovenDepotWerk.ToList();
                                 case "SorteerWerk":
-                                    var outputBilthovenSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Jaar from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Bilthoven = Functie.Sorteer_personeel and WerkDagen.Datum = '{datum}' and WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputBilthovenSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Bilthoven = Functie.Sorteer_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     return outputBilthovenSorteerWerk.ToList();
                                 case "AllEmployees":
-                                    var outputBilthovenAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Bilthoven left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf WHERE WerkDagen.Datum = '{datum}' AND WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputBilthovenAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Bilthoven left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf WHERE WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     for (int i = 0; i < outputBilthovenAllEmployees.ToList().Count; i++)
                                     {
                                         if (outputBilthovenAllEmployees.ToList()[i].Bezorger != null)
@@ -69,16 +69,16 @@ namespace UMT.Transport.Classes
                             switch (UcFunctions.SelectedFunction)
                             {
                                 case "Bezorger":
-                                    var outputAlmereBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Jaar from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Almere = Functie.Bezorger and WerkDagen.Datum = '{datum}' and WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputAlmereBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Almere = Functie.Bezorger and WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     return outputAlmereBezorger.ToList();
                                 case "DepotWerk":
-                                    var outputAlmereDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Jaar from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Almere = Functie.Depot_personeel and WerkDagen.Datum = '{datum}' and WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputAlmereDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Almere = Functie.Depot_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     return outputAlmereDepotWerk.ToList();
                                 case "SorteerWerk":
-                                    var outputAlmereSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Jaar from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Almere = Functie.Sorteer_personeel and WerkDagen.Datum = '{datum}' and WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputAlmereSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Almere = Functie.Sorteer_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     return outputAlmereSorteerWerk.ToList();
                                 case "AllEmployees":
-                                    var outputAlmereAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Almere left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf WHERE WerkDagen.Datum = '{datum}' AND WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputAlmereAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Almere left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf WHERE WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     for (int i = 0; i < outputAlmereAllEmployees.ToList().Count; i++)
                                     {
                                         if (outputAlmereAllEmployees.ToList()[i].Bezorger != null)
@@ -102,16 +102,16 @@ namespace UMT.Transport.Classes
                             switch (UcFunctions.SelectedFunction)
                             {
                                 case "Bezorger":
-                                    var outputLelystadBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Jaar from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Lelystad = Functie.Bezorger and WerkDagen.Datum = '{datum}' and WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputLelystadBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Lelystad = Functie.Bezorger and WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     return outputLelystadBezorger.ToList();
                                 case "DepotWerk":
-                                    var outputLelystadDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Jaar from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Lelystad = Functie.Depot_personeel and WerkDagen.Datum = '{datum}' and WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputLelystadDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Lelystad = Functie.Depot_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     return outputLelystadDepotWerk.ToList();
                                 case "SorteerWerk":
-                                    var outputLelystadSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Jaar from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Lelystad = Functie.Sorteer_personeel and WerkDagen.Datum = '{datum}' and WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputLelystadSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Lelystad = Functie.Sorteer_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     return outputLelystadSorteerWerk.ToList();
                                 case "AllEmployees":
-                                    var outputLelystadAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Lelystad left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf WHERE WerkDagen.Datum = '{datum}' AND WerkDagen.Jaar = '{year}'", new DynamicParameters());
+                                    var outputLelystadAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Lelystad left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf WHERE WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     for (int i = 0; i < outputLelystadAllEmployees.ToList().Count; i++)
                                     {
                                         if (outputLelystadAllEmployees.ToList()[i].Bezorger != null)
@@ -154,11 +154,13 @@ namespace UMT.Transport.Classes
                     if (Firstdaysplit[0].Length < 2)
                     {
                         FirstDay = $"0{FirstDay}";
+                        Firstdaysplit[0] = $"0{Firstdaysplit[0]}";
                     }
                     var Lastdaysplit = LastDay.Split('-');
                     if (Lastdaysplit[0].Length < 2)
                     {
                         LastDay = $"0{LastDay}";
+                        Lastdaysplit[0] = $"0{Lastdaysplit[0]}";
                     }
                     switch (UcDepots.SelectedDepot)
                     {
@@ -166,16 +168,16 @@ namespace UMT.Transport.Classes
                             switch (UcFunctions.SelectedFunction)
                             {
                                 case "Bezorger":
-                                    var outputBilthovenBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Functie.Bezorger AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputBilthovenBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Functie.Bezorger AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     return outputBilthovenBezorger.ToList();
                                 case "DepotWerk":
-                                    var outputBilthovenDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Functie.Depot_personeel AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputBilthovenDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Functie.Depot_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     return outputBilthovenDepotWerk.ToList();
                                 case "SorteerWerk":
-                                    var outputBilthovenSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Functie.Sorteer_personeel AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputBilthovenSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Functie.Sorteer_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     return outputBilthovenSorteerWerk.ToList();
                                 case "AllEmployees":
-                                    var outputBilthovenAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Bilthoven left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Personeel.PersNr AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputBilthovenAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Bilthoven left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Personeel.PersNr AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     for (int i = 0; i < outputBilthovenAllEmployees.ToList().Count; i++)
                                     {
                                         if (outputBilthovenAllEmployees.ToList()[i].Bezorger != null)
@@ -199,16 +201,16 @@ namespace UMT.Transport.Classes
                             switch (UcFunctions.SelectedFunction)
                             {
                                 case "Bezorger":
-                                    var outputAlmereBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Functie.Bezorger AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputAlmereBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Functie.Bezorger AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     return outputAlmereBezorger.ToList();
                                 case "DepotWerk":
-                                    var outputAlmereDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Functie.Depot_personeel AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputAlmereDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Functie.Depot_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     return outputAlmereDepotWerk.ToList();
                                 case "SorteerWerk":
-                                    var outputAlmereSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Functie.Sorteer_personeel AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputAlmereSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Functie.Sorteer_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     return outputAlmereSorteerWerk.ToList();
                                 case "AllEmployees":
-                                    var outputAlmereAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Almere left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Personeel.PersNr AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputAlmereAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Almere left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Personeel.PersNr AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     for (int i = 0; i < outputAlmereAllEmployees.ToList().Count; i++)
                                     {
                                         if (outputAlmereAllEmployees.ToList()[i].Bezorger != null)
@@ -232,16 +234,16 @@ namespace UMT.Transport.Classes
                             switch (UcFunctions.SelectedFunction)
                             {
                                 case "Bezorger":
-                                    var outputLelystadBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Functie.Bezorger AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputLelystadBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Functie.Bezorger AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     return outputLelystadBezorger.ToList();
                                 case "DepotWerk":
-                                    var outputLelystadDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Functie.Depot_personeel AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputLelystadDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Functie.Depot_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     return outputLelystadDepotWerk.ToList();
                                 case "SorteerWerk":
-                                    var outputLelystadSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Functie.Sorteer_personeel AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputLelystadSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Functie.Sorteer_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     return outputLelystadSorteerWerk.ToList();
                                 case "AllEmployees":
-                                    var outputLelystadAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Jaar, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Lelystad left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Personeel.PersNr AND WerkDagen.Datum between '{FirstDay}' AND '{LastDay}' AND WerkDagen.Jaar = '{year}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    var outputLelystadAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Lelystad left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Personeel.PersNr AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     for (int i = 0; i < outputLelystadAllEmployees.ToList().Count; i++)
                                     {
                                         if (outputLelystadAllEmployees.ToList()[i].Bezorger != null)
@@ -496,16 +498,16 @@ namespace UMT.Transport.Classes
                             switch (UcFunctions.SelectedFunction)
                             {
                                 case "Bezorger":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Bilthoven, Bezorger) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Bilthoven, Bezorger) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
                                     return;
                                 case "DepotWerk":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Bilthoven, Depot_personeel) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Bilthoven, Depot_personeel) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
                                     return;
                                 case "SorteerWerk":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Bilthoven, Sorteer_personeel) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Bilthoven, Sorteer_personeel) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
                                     return;
                                 case "AllEmployees":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Bilthoven, Bezorger, Depot_personeel, Sorteer_personeel) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @Bezorger, @Depot_personeel, @Sorteer_personeel)", allEmployees);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Bilthoven, Bezorger, Depot_personeel, Sorteer_personeel) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @Bezorger, @Depot_personeel, @Sorteer_personeel)", allEmployees);
                                     return;
                                 default:
                                     MessageBox.Show("ERROR, neem contact op met admin.");
@@ -515,16 +517,16 @@ namespace UMT.Transport.Classes
                             switch (UcFunctions.SelectedFunction)
                             {
                                 case "Bezorger":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Almere, Bezorger) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Almere, Bezorger) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
                                     return;
                                 case "DepotWerk":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Almere, Depot_personeel) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Almere, Depot_personeel) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
                                     return;
                                 case "SorteerWerk":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Almere, Sorteer_personeel) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Almere, Sorteer_personeel) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
                                     return;
                                 case "AllEmployees":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Almere) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr)", allEmployees);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Almere, Bezorger, Depot_personeel, Sorteer_personeel) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @Bezorger, @Depot_personeel, @Sorteer_personeel)", allEmployees);
                                     return;
                                 default:
                                     MessageBox.Show("ERROR, neem contact op met admin.");
@@ -534,16 +536,16 @@ namespace UMT.Transport.Classes
                             switch (UcFunctions.SelectedFunction)
                             {
                                 case "Bezorger":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Lelystad, Bezorger) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Lelystad, Bezorger) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
                                     return;
                                 case "DepotWerk":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Lelystad, Depot_personeel) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Lelystad, Depot_personeel) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
                                     return;
                                 case "SorteerWerk":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Lelystad, Sorteer_personeel) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Lelystad, Sorteer_personeel) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @PersNr)", employee);
                                     return;
                                 case "AllEmployees":
-                                    cnn.Execute("insert into WerkDagen (Datum, Jaar, Begin_tijd, Eind_tijd, PersId, Lelystad) values (@Datum, @Jaar, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr)", allEmployees);
+                                    cnn.Execute("insert into WerkDagen (Datum, Begin_tijd, Eind_tijd, PersId, Lelystad, Bezorger, Depot_personeel, Sorteer_personeel) values (@Datum, @Begin_tijd, @Eind_tijd, @PersNr, @PersNr, @Bezorger, @Depot_personeel, @Sorteer_personeel)", allEmployees);
                                     return;
                                 default:
                                     MessageBox.Show("ERROR, neem contact op met admin.");
@@ -559,11 +561,11 @@ namespace UMT.Transport.Classes
             {
                 if (employee == null)
                 {
-                    MessageBox.Show($"Je hebt {allEmployees.PersNr} al ingepland op {allEmployees.Datum}-{allEmployees.Jaar} {Environment.NewLine}en of begin tijd {allEmployees.Begin_tijd} of eind tijd {allEmployees.Eind_tijd} is hetzelfde");
+                    MessageBox.Show($"Je hebt {allEmployees.PersNr} al ingepland op {allEmployees.Datum} {Environment.NewLine}en of begin tijd {allEmployees.Begin_tijd} of eind tijd {allEmployees.Eind_tijd} is hetzelfde");
                 }
                 else
                 {
-                    MessageBox.Show($"Je hebt {employee.PersNr} al ingepland op {employee.Datum}-{employee.Jaar} {Environment.NewLine}en of begin tijd {employee.Begin_tijd} of eind tijd {employee.Eind_tijd} is hetzelfde");
+                    MessageBox.Show($"Je hebt {employee.PersNr} al ingepland op {employee.Datum} {Environment.NewLine}en of begin tijd {employee.Begin_tijd} of eind tijd {employee.Eind_tijd} is hetzelfde");
                 }
                 MessageBox.Show($"Admin error report: {Environment.NewLine}{ex.Message}");
             }

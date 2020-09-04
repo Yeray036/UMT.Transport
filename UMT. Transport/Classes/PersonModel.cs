@@ -13,7 +13,6 @@ namespace UMT.Transport.Classes
         public string Achternaam { get; set; }
         public int PersNr { get; set; }
         public string Datum { get; set; }
-        public string Jaar { get; set; }
         public string Begin_tijd { get; set; }
         public string Eind_tijd { get; set; }
     }
@@ -25,7 +24,6 @@ namespace UMT.Transport.Classes
         public string Achternaam { get; set; }
         public string PersNr { get; set; }
         public string Datum { get; set; }
-        public string Jaar { get; set; }
         public string Begin_tijd { get; set; }
         public string Eind_tijd { get; set; }
         public string Bezorger { get; set; }

@@ -12,24 +12,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using UMT.Transport.Pages;
-using UMT.Transport.UserControls;
 
-namespace UMT.Transport
+namespace UMT.Transport.Pages.AdminPanel
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for AddNewEmployee.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class AddNewEmployee : Page
     {
-        UcDepots ucDepots = new UcDepots();
-        public static MainWindow mainWindow { get; set; }
-
-        public MainWindow()
+        public AddNewEmployee()
         {
             InitializeComponent();
-            mainWindow = this;
-            mainWindow.MainMenuControls.Children.Add(ucDepots);
         }
     }
 }
