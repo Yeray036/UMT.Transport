@@ -35,17 +35,6 @@ namespace UMT.Transport.Pages
         {
             InitializeComponent();
             SqliteHandler.LoadAllEmployeesOnName("");
-            /*if (UcFunctions.SelectedFunction != "AllEmployees")
-            {
-                FunctieFieldComboBox.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                FunctieFieldComboBox.Visibility = Visibility.Visible;
-                FunctieFieldComboBox.ItemsSource = FunctieNames();
-
-            }
-            */
             if (UcFunctions.SelectedFunction != "Bezorger" || UcDepots.SelectedDepot != "Bilthoven")
             {
                 SqliteHandler.Bedrijven = null;

@@ -34,12 +34,24 @@ namespace UMT.Transport.UserControls
         {
             if (MainWindow.mainWindow.MainMenuControls.Children.Count >= 1)
             {
+                EditAndOrRemoveEmployee.Bilthoven = false;
+                EditAndOrRemoveEmployee.Almere = false;
+                EditAndOrRemoveEmployee.Lelystad = false;
+                EditAndOrRemoveEmployee.bezorger = false;
+                EditAndOrRemoveEmployee.depotpersoneel = false;
+                EditAndOrRemoveEmployee.sorteerpersoneel = false;
                 MainWindow.mainWindow.MainMenuControls.Children.Clear();
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcFunctions.ucFunctions);
                 MainWindow.mainWindow.MainFrame.Navigate(null);
             }
             else
             {
+                EditAndOrRemoveEmployee.Bilthoven = false;
+                EditAndOrRemoveEmployee.Almere = false;
+                EditAndOrRemoveEmployee.Lelystad = false;
+                EditAndOrRemoveEmployee.bezorger = false;
+                EditAndOrRemoveEmployee.depotpersoneel = false;
+                EditAndOrRemoveEmployee.sorteerpersoneel = false;
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcFunctions.ucFunctions);
                 MainWindow.mainWindow.MainFrame.Navigate(null);
             }
@@ -56,6 +68,20 @@ namespace UMT.Transport.UserControls
             else
             {
                 MainWindow.mainWindow.MainFrame.Navigate(newEmployeePage);
+            }
+        }
+
+        private void OpenEditAndRemoveEmployee_Btn(object sender, RoutedEventArgs e)
+        {
+            EditAndOrRemoveEmployee editOrRemoveEmployeePage = new EditAndOrRemoveEmployee();
+            if (MainWindow.mainWindow.MainFrame.CanGoBack)
+            {
+                MainWindow.mainWindow.MainFrame.RemoveBackEntry();
+                MainWindow.mainWindow.MainFrame.Navigate(editOrRemoveEmployeePage);
+            }
+            else
+            {
+                MainWindow.mainWindow.MainFrame.Navigate(editOrRemoveEmployeePage);
             }
         }
     }

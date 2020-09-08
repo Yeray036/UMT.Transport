@@ -122,11 +122,13 @@ namespace UMT.Transport.UserControls
             {
                 MainWindow.mainWindow.MainMenuControls.Children.Clear();
                 UcAdminOptions.ucAdminOptions = new UcAdminOptions();
+                SelectedFunction = "AdminPanel";
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcAdminOptions.ucAdminOptions);
             }
             else
             {
                 UcAdminOptions.ucAdminOptions = new UcAdminOptions();
+                SelectedFunction = "AdminPanel";
                 MainWindow.mainWindow.MainMenuControls.Children.Add(UcAdminOptions.ucAdminOptions);
             }
         }

@@ -96,6 +96,9 @@
     <Compile Include="Pages\AdminPanel\AddNewEmployee.xaml.cs">
       <DependentUpon>AddNewEmployee.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AdminPanel\EditAndOrRemoveEmployee.xaml.cs">
+      <DependentUpon>EditAndOrRemoveEmployee.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\UcAdminOptions.xaml.cs">
       <DependentUpon>UcAdminOptions.xaml</DependentUpon>
     </Compile>
@@ -123,6 +126,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\AdminPanel\AddNewEmployee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AdminPanel\EditAndOrRemoveEmployee.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -6,10 +6,14 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Data.SQLite;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using UMT.Transport.Pages.AdminPanel;
 using UMT.Transport.UserControls;
 
 namespace UMT.Transport.Classes
@@ -37,17 +41,38 @@ namespace UMT.Transport.Classes
                             {
                                 case "Bezorger":
                                     var outputBilthovenBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Bilthoven = Functie.Bezorger and WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                                    for (int i = 0; i < outputBilthovenBezorger.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputBilthovenBezorger.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputBilthovenBezorger.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputBilthovenBezorger.ToList();
                                 case "DepotWerk":
                                     var outputBilthovenDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Bilthoven = Functie.Depot_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                                    for (int i = 0; i < outputBilthovenDepotWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputBilthovenDepotWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputBilthovenDepotWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputBilthovenDepotWerk.ToList();
                                 case "SorteerWerk":
                                     var outputBilthovenSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Bilthoven = Functie.Sorteer_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                                    for (int i = 0; i < outputBilthovenSorteerWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputBilthovenSorteerWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputBilthovenSorteerWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputBilthovenSorteerWerk.ToList();
                                 case "AllEmployees":
                                     var outputBilthovenAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Bilthoven left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf WHERE WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     for (int i = 0; i < outputBilthovenAllEmployees.ToList().Count; i++)
                                     {
+                                        DateTime dt = Convert.ToDateTime(outputBilthovenAllEmployees.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputBilthovenAllEmployees.ToList()[i].Datum = dt.ToShortDateString();
                                         if (outputBilthovenAllEmployees.ToList()[i].Bezorger != null)
                                         {
                                             outputBilthovenAllEmployees.ToList()[i].Bezorger = "✓";
@@ -70,17 +95,38 @@ namespace UMT.Transport.Classes
                             {
                                 case "Bezorger":
                                     var outputAlmereBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Almere = Functie.Bezorger and WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                                    for (int i = 0; i < outputAlmereBezorger.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputAlmereBezorger.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputAlmereBezorger.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputAlmereBezorger.ToList();
                                 case "DepotWerk":
                                     var outputAlmereDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Almere = Functie.Depot_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                                    for (int i = 0; i < outputAlmereDepotWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputAlmereDepotWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputAlmereDepotWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputAlmereDepotWerk.ToList();
                                 case "SorteerWerk":
                                     var outputAlmereSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Almere = Functie.Sorteer_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                                    for (int i = 0; i < outputAlmereSorteerWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputAlmereSorteerWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputAlmereSorteerWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputAlmereSorteerWerk.ToList();
                                 case "AllEmployees":
                                     var outputAlmereAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Almere left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf WHERE WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     for (int i = 0; i < outputAlmereAllEmployees.ToList().Count; i++)
                                     {
+                                        DateTime dt = Convert.ToDateTime(outputAlmereAllEmployees.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputAlmereAllEmployees.ToList()[i].Datum = dt.ToShortDateString();
                                         if (outputAlmereAllEmployees.ToList()[i].Bezorger != null)
                                         {
                                             outputAlmereAllEmployees.ToList()[i].Bezorger = "✓";
@@ -103,17 +149,38 @@ namespace UMT.Transport.Classes
                             {
                                 case "Bezorger":
                                     var outputLelystadBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Lelystad = Functie.Bezorger and WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                                    for (int i = 0; i < outputLelystadBezorger.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputLelystadBezorger.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputLelystadBezorger.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputLelystadBezorger.ToList();
                                 case "DepotWerk":
                                     var outputLelystadDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Lelystad = Functie.Depot_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                                    for (int i = 0; i < outputLelystadDepotWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputLelystadDepotWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputLelystadDepotWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputLelystadDepotWerk.ToList();
                                 case "SorteerWerk":
                                     var outputLelystadSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where WerkDagen.Lelystad = Functie.Sorteer_personeel and WerkDagen.Datum = '{datum}'", new DynamicParameters());
+                                    for (int i = 0; i < outputLelystadSorteerWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputLelystadSorteerWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputLelystadSorteerWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputLelystadSorteerWerk.ToList();
                                 case "AllEmployees":
                                     var outputLelystadAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Lelystad left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf WHERE WerkDagen.Datum = '{datum}'", new DynamicParameters());
                                     for (int i = 0; i < outputLelystadAllEmployees.ToList().Count; i++)
                                     {
+                                        DateTime dt = Convert.ToDateTime(outputLelystadAllEmployees.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputLelystadAllEmployees.ToList()[i].Datum = dt.ToShortDateString();
                                         if (outputLelystadAllEmployees.ToList()[i].Bezorger != null)
                                         {
                                             outputLelystadAllEmployees.ToList()[i].Bezorger = "✓";
@@ -144,7 +211,7 @@ namespace UMT.Transport.Classes
         }
 
         //Load all employees that work on the selected calendar Week.
-        public static dynamic LoadEmployeesOnWeek(string FirstDay, string LastDay,  string year)
+        public static dynamic LoadEmployeesOnWeek(string FirstDay, string LastDay, string year)
         {
             try
             {
@@ -169,17 +236,38 @@ namespace UMT.Transport.Classes
                             {
                                 case "Bezorger":
                                     var outputBilthovenBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Functie.Bezorger AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    for (int i = 0; i < outputBilthovenBezorger.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputBilthovenBezorger.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputBilthovenBezorger.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputBilthovenBezorger.ToList();
                                 case "DepotWerk":
                                     var outputBilthovenDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Functie.Depot_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    for (int i = 0; i < outputBilthovenDepotWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputBilthovenDepotWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputBilthovenDepotWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputBilthovenDepotWerk.ToList();
                                 case "SorteerWerk":
                                     var outputBilthovenSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Functie.Sorteer_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    for (int i = 0; i < outputBilthovenSorteerWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputBilthovenSorteerWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputBilthovenSorteerWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputBilthovenSorteerWerk.ToList();
                                 case "AllEmployees":
                                     var outputBilthovenAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Bilthoven left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Bilthoven = Personeel.PersNr AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     for (int i = 0; i < outputBilthovenAllEmployees.ToList().Count; i++)
                                     {
+                                        DateTime dt = Convert.ToDateTime(outputBilthovenAllEmployees.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputBilthovenAllEmployees.ToList()[i].Datum = dt.ToShortDateString();
                                         if (outputBilthovenAllEmployees.ToList()[i].Bezorger != null)
                                         {
                                             outputBilthovenAllEmployees.ToList()[i].Bezorger = "✓";
@@ -202,17 +290,38 @@ namespace UMT.Transport.Classes
                             {
                                 case "Bezorger":
                                     var outputAlmereBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Functie.Bezorger AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    for (int i = 0; i < outputAlmereBezorger.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputAlmereBezorger.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputAlmereBezorger.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputAlmereBezorger.ToList();
                                 case "DepotWerk":
                                     var outputAlmereDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Functie.Depot_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    for (int i = 0; i < outputAlmereDepotWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputAlmereDepotWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputAlmereDepotWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputAlmereDepotWerk.ToList();
                                 case "SorteerWerk":
                                     var outputAlmereSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Functie.Sorteer_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    for (int i = 0; i < outputAlmereSorteerWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputAlmereSorteerWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputAlmereSorteerWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputAlmereSorteerWerk.ToList();
                                 case "AllEmployees":
                                     var outputAlmereAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Almere left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Almere = Personeel.PersNr AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     for (int i = 0; i < outputAlmereAllEmployees.ToList().Count; i++)
                                     {
+                                        DateTime dt = Convert.ToDateTime(outputAlmereAllEmployees.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputAlmereAllEmployees.ToList()[i].Datum = dt.ToShortDateString();
                                         if (outputAlmereAllEmployees.ToList()[i].Bezorger != null)
                                         {
                                             outputAlmereAllEmployees.ToList()[i].Bezorger = "✓";
@@ -235,17 +344,38 @@ namespace UMT.Transport.Classes
                             {
                                 case "Bezorger":
                                     var outputLelystadBezorger = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Bezorger = WerkDagen.Bezorger left join Personeel on Personeel.PersNr = Functie.Bezorger left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Functie.Bezorger AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    for (int i = 0; i < outputLelystadBezorger.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputLelystadBezorger.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputLelystadBezorger.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputLelystadBezorger.ToList();
                                 case "DepotWerk":
                                     var outputLelystadDepotWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Depot_personeel = WerkDagen.Depot_personeel left join Personeel on Personeel.PersNr = Functie.Depot_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Functie.Depot_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    for (int i = 0; i < outputLelystadDepotWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputLelystadDepotWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputLelystadDepotWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputLelystadDepotWerk.ToList();
                                 case "SorteerWerk":
                                     var outputLelystadSorteerWerk = cnn.Query<PersonModel>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd from WerkDagen inner join Functie on Functie.Sorteer_personeel = WerkDagen.Sorteer_personeel left join Personeel on Personeel.PersNr = Functie.Sorteer_personeel left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Functie.Sorteer_personeel AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
+                                    for (int i = 0; i < outputLelystadSorteerWerk.ToList().Count; i++)
+                                    {
+                                        DateTime dt = Convert.ToDateTime(outputLelystadSorteerWerk.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputLelystadSorteerWerk.ToList()[i].Datum = dt.ToShortDateString();
+                                    }
                                     return outputLelystadSorteerWerk.ToList();
                                 case "AllEmployees":
                                     var outputLelystadAllEmployees = cnn.Query<AllEmployeesPerDepot>($"select Naam as Bedrijfs_Naam, Voornaam, Achternaam, PersNr, Datum, Begin_tijd, Eind_tijd, Bezorger, Depot_personeel, Sorteer_personeel from WerkDagen inner join Personeel on Personeel.PersNr = WerkDagen.Lelystad left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf  where WerkDagen.Lelystad = Personeel.PersNr AND WerkDagen.Datum between '{year}-{Firstdaysplit[1]}-{Firstdaysplit[0]}' and '{year}-{Lastdaysplit[1]}-{Lastdaysplit[0]}' order by WerkDagen.Datum ASC", new DynamicParameters());
                                     for (int i = 0; i < outputLelystadAllEmployees.ToList().Count; i++)
                                     {
+                                        DateTime dt = Convert.ToDateTime(outputLelystadAllEmployees.ToList()[i].Datum);
+                                        dt.ToString("dd-MM-yyyy");
+                                        outputLelystadAllEmployees.ToList()[i].Datum = dt.ToShortDateString();
                                         if (outputLelystadAllEmployees.ToList()[i].Bezorger != null)
                                         {
                                             outputLelystadAllEmployees.ToList()[i].Bezorger = "✓";
@@ -275,6 +405,27 @@ namespace UMT.Transport.Classes
             }
         }
 
+        public static List<string> LoadAllCompanyNames()
+        {
+            try
+            {
+                using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+                {
+                    var outputBilthovenBedrijven = cnn.Query<string>($"select Naam from Bedrijven", new DynamicParameters());
+                    Bedrijven = new List<string>();
+                    foreach (var BedrijfsNaam in outputBilthovenBedrijven.ToList())
+                    {
+                        Bedrijven.Add(BedrijfsNaam);
+                    }
+                    return Bedrijven;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
         //LoadAllEmployeesNames from db.
         public static List<string> LoadAllEmployeesOnName(string Bedrijf)
         {
@@ -312,6 +463,23 @@ namespace UMT.Transport.Classes
                                 case "AllEmployees":
                                     var outputBilthovenAllEmployees = cnn.Query<string>($"select Voornaam from Depots inner join Personeel on Depots.Bilthoven = Personeel.PersNr", new DynamicParameters());
                                     return outputBilthovenAllEmployees.ToList();
+                                case "AdminPanel":
+                                    var outputAdminPanelBedrijven = cnn.Query<string>($"select Naam from Bedrijven", new DynamicParameters());
+                                    Bedrijven = new List<string>();
+                                    foreach (var BedrijfsNaam in outputAdminPanelBedrijven.ToList())
+                                    {
+                                        Bedrijven.Add(BedrijfsNaam);
+                                    }
+                                    if (Bedrijf != String.Empty)
+                                    {
+                                        var outputBilthovenAllEmployeeAdminPanel = cnn.Query<string>($"select Voornaam from Personeel left join Depots on Depots.Bilthoven = Personeel.PersNr left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where Bedrijven.Naam = '{Bedrijf}'", new DynamicParameters());
+                                        return outputBilthovenAllEmployeeAdminPanel.ToList();
+                                    }
+                                    else
+                                    {
+                                        var outputBilthovenAdminPanel = cnn.Query<string>($"select Voornaam from Depots inner join Personeel on Depots.Bilthoven = Personeel.PersNr", new DynamicParameters());
+                                        return outputBilthovenAdminPanel.ToList();
+                                    }
                                 default:
                                     return null;
                             }
@@ -330,6 +498,23 @@ namespace UMT.Transport.Classes
                                 case "AllEmployees":
                                     var outputAlmereAllEmployees = cnn.Query<string>($"select Voornaam from Depots inner join Personeel on Depots.Almere = Personeel.PersNr", new DynamicParameters());
                                     return outputAlmereAllEmployees.ToList();
+                                case "AdminPanel":
+                                    var outputAdminPanelBedrijven = cnn.Query<string>($"select Naam from Bedrijven", new DynamicParameters());
+                                    Bedrijven = new List<string>();
+                                    foreach (var BedrijfsNaam in outputAdminPanelBedrijven.ToList())
+                                    {
+                                        Bedrijven.Add(BedrijfsNaam);
+                                    }
+                                    if (Bedrijf != String.Empty)
+                                    {
+                                        var outputAlmereAllEmployeeAdminPanel = cnn.Query<string>($"select Voornaam from Personeel left join Depots on Depots.Almere = Personeel.PersNr left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where Bedrijven.Naam = '{Bedrijf}'", new DynamicParameters());
+                                        return outputAlmereAllEmployeeAdminPanel.ToList();
+                                    }
+                                    else
+                                    {
+                                        var outputAlmereAdminPanel = cnn.Query<string>($"select Voornaam from Depots inner join Personeel on Depots.Almere = Personeel.PersNr", new DynamicParameters());
+                                        return outputAlmereAdminPanel.ToList();
+                                    }
                                 default:
                                     return null;
                             }
@@ -348,6 +533,23 @@ namespace UMT.Transport.Classes
                                 case "AllEmployees":
                                     var outputLelystadAllEmployees = cnn.Query<string>($"select Voornaam from Depots inner join Personeel on Depots.Lelystad = Personeel.PersNr", new DynamicParameters());
                                     return outputLelystadAllEmployees.ToList();
+                                case "AdminPanel":
+                                    var outputAdminPanelBedrijven = cnn.Query<string>($"select Naam from Bedrijven", new DynamicParameters());
+                                    Bedrijven = new List<string>();
+                                    foreach (var BedrijfsNaam in outputAdminPanelBedrijven.ToList())
+                                    {
+                                        Bedrijven.Add(BedrijfsNaam);
+                                    }
+                                    if (Bedrijf != String.Empty)
+                                    {
+                                        var outputLelystadAllEmployeeAdminPanel = cnn.Query<string>($"select Voornaam from Personeel left join Depots on Depots.Lelystad = Personeel.PersNr left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf where Bedrijven.Naam = '{Bedrijf}'", new DynamicParameters());
+                                        return outputLelystadAllEmployeeAdminPanel.ToList();
+                                    }
+                                    else
+                                    {
+                                        var outputLelystadAdminPanel = cnn.Query<string>($"select Voornaam from Depots inner join Personeel on Depots.Lelystad = Personeel.PersNr", new DynamicParameters());
+                                        return outputLelystadAdminPanel.ToList();
+                                    }
                                 default:
                                     return null;
                             }
@@ -387,6 +589,9 @@ namespace UMT.Transport.Classes
                                 case "AllEmployees":
                                     var outputBilthovenAllEmployees = cnn.Query<string>($"select Achternaam from Depots inner join Personeel on Depots.Bilthoven = Personeel.PersNr WHERE Voornaam = '{Name}'", new DynamicParameters());
                                     return outputBilthovenAllEmployees.ToList();
+                                case "AdminPanel":
+                                    var outputBilthovenAdminPanel = cnn.Query<string>($"select Achternaam from Depots inner join Personeel on Depots.Bilthoven = Personeel.PersNr WHERE Voornaam = '{Name}'", new DynamicParameters());
+                                    return outputBilthovenAdminPanel.ToList();
                                 default:
                                     return null;
                             }
@@ -405,6 +610,9 @@ namespace UMT.Transport.Classes
                                 case "AllEmployees":
                                     var outputAlmereAllEmployees = cnn.Query<string>($"select Achternaam from Depots inner join Personeel on Depots.Almere = Personeel.PersNr WHERE Voornaam = '{Name}'", new DynamicParameters());
                                     return outputAlmereAllEmployees.ToList();
+                                case "AdminPanel":
+                                    var outputAlmereAdminPanel = cnn.Query<string>($"select Achternaam from Depots inner join Personeel on Depots.Almere = Personeel.PersNr WHERE Voornaam = '{Name}'", new DynamicParameters());
+                                    return outputAlmereAdminPanel.ToList();
                                 default:
                                     return null;
                             }
@@ -423,6 +631,9 @@ namespace UMT.Transport.Classes
                                 case "AllEmployees":
                                     var outputLelystadAllEmployees = cnn.Query<string>($"select Achternaam from Depots inner join Personeel on Depots.Lelystad = Personeel.PersNr WHERE Voornaam = '{Name}'", new DynamicParameters());
                                     return outputLelystadAllEmployees.ToList();
+                                case "AdminPanel":
+                                    var outputLelystadAdminPanel = cnn.Query<string>($"select Achternaam from Depots inner join Personeel on Depots.Lelystad = Personeel.PersNr WHERE Voornaam = '{Name}'", new DynamicParameters());
+                                    return outputLelystadAdminPanel.ToList();
                                 default:
                                     return null;
                             }
@@ -446,7 +657,6 @@ namespace UMT.Transport.Classes
                 using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
                 {
                     var output = cnn.Query<string>($"select PersNr from Personeel where Voornaam = '{Name}' AND Achternaam = '{LastName}'", new DynamicParameters());
-                    Console.WriteLine(output.ToList());
                     return output.ToList();
                 }
             }
@@ -483,6 +693,80 @@ namespace UMT.Transport.Classes
             {
                 MessageBox.Show(ex.Message);
                 return null;
+            }
+        }
+
+        public static void GetActiveDepotsFromEmployee(int PersNr)
+        {
+            try
+            {
+                using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+                {
+                    switch (UcDepots.SelectedDepot)
+                    {
+                        case "Bilthoven":
+                            var outputBilthoven = cnn.Query<Depots>($"select Depots.Bilthoven, Depots.Almere, Depots.Lelystad from Depots where Depots.Bilthoven = {PersNr}", new DynamicParameters());
+                            for (int i = 0; i < outputBilthoven.ToList().Count; i++)
+                            {
+                                if (outputBilthoven.ToList()[i].Bilthoven == $"{PersNr}")
+                                {
+                                    EditAndOrRemoveEmployee.Bilthoven = true;
+                                }
+                                if (outputBilthoven.ToList()[i].Almere == $"{PersNr}")
+                                {
+                                    EditAndOrRemoveEmployee.Almere = true;
+                                }
+                                if (outputBilthoven.ToList()[i].Lelystad == $"{PersNr}")
+                                {
+                                    EditAndOrRemoveEmployee.Lelystad = true;
+                                }
+                            }
+                            return;
+                        case "Almere":
+                            var outputAlmere = cnn.Query<Depots>($"select Depots.Bilthoven, Depots.Almere, Depots.Lelystad from Depots where Depots.Almere = {PersNr}", new DynamicParameters());
+                            for (int i = 0; i < outputAlmere.ToList().Count; i++)
+                            {
+                                if (outputAlmere.ToList()[i].Bilthoven == $"{PersNr}")
+                                {
+                                    EditAndOrRemoveEmployee.Bilthoven = true;
+                                }
+                                if (outputAlmere.ToList()[i].Almere == $"{PersNr}")
+                                {
+                                    EditAndOrRemoveEmployee.Almere = true;
+                                }
+                                if (outputAlmere.ToList()[i].Lelystad == $"{PersNr}")
+                                {
+                                    EditAndOrRemoveEmployee.Lelystad = true;
+                                }
+                            }
+                            return;
+                        case "Lelystad":
+                            var outputLelystad = cnn.Query<Depots>($"select Depots.Bilthoven, Depots.Almere, Depots.Lelystad from Depots where Depots.Lelystad = {PersNr}", new DynamicParameters());
+                            for (int i = 0; i < outputLelystad.ToList().Count; i++)
+                            {
+                                if (outputLelystad.ToList()[i].Bilthoven == $"{PersNr}")
+                                {
+                                    EditAndOrRemoveEmployee.Bilthoven = true;
+                                }
+                                if (outputLelystad.ToList()[i].Almere == $"{PersNr}")
+                                {
+                                    EditAndOrRemoveEmployee.Almere = true;
+                                }
+                                if (outputLelystad.ToList()[i].Lelystad == $"{PersNr}")
+                                {
+                                    EditAndOrRemoveEmployee.Lelystad = true;
+                                }
+                            }
+                            return;
+                        default:
+                            return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
             }
         }
 
@@ -568,6 +852,135 @@ namespace UMT.Transport.Classes
                     MessageBox.Show($"Je hebt {employee.PersNr} al ingepland op {employee.Datum} {Environment.NewLine}en of begin tijd {employee.Begin_tijd} of eind tijd {employee.Eind_tijd} is hetzelfde");
                 }
                 MessageBox.Show($"Admin error report: {Environment.NewLine}{ex.Message}");
+            }
+        }
+
+        public static List<AddNewEmployeeId> SaveNewEmployee(AddNewEmployeeId newEmployeeId)
+        {
+            try
+            {
+                using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+                {
+                    switch (UcDepots.SelectedDepot)
+                    {
+                        case "Bilthoven":
+                            if (newEmployeeId != null)
+                            {
+                                cnn.Execute($"insert into Personeel (Voornaam, Achternaam, PersNr, Bedrijf) values (@Voornaam, @Achternaam, @PersNr, @Bedrijfsnaam)", newEmployeeId);
+                                cnn.Execute($"insert into Functie (Bezorger, Depot_personeel, Sorteer_personeel) values (@Bezorger, @Depot_personeel, @Sorteer_personeel)", newEmployeeId);
+                                cnn.Execute($"insert into Depots (Bilthoven, Almere, Lelystad) values (@PersNr, @Almere, @Lelystad)", newEmployeeId);
+                            }
+                            var AllEmployeesBilthoven = cnn.Query<AddNewEmployeeId>("select Naam as Bedrijfsnaam, Voornaam, Achternaam, PersNr, Bezorger, Depot_personeel, Sorteer_personeel, Almere, Bilthoven, Lelystad from Personeel inner join Functie on Functie.Bezorger = Personeel.PersNr left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf inner join Depots where Personeel.PersNr = Bilthoven");
+                            for (int i = 0; i < AllEmployeesBilthoven.ToList().Count; i++)
+                            {
+                                if (AllEmployeesBilthoven.ToList()[i].Bezorger != null)
+                                {
+                                    AllEmployeesBilthoven.ToList()[i].Bezorger = "✓";
+                                }
+                                if (AllEmployeesBilthoven.ToList()[i].Depot_personeel != null)
+                                {
+                                    AllEmployeesBilthoven.ToList()[i].Depot_personeel = "✓";
+                                }
+                                if (AllEmployeesBilthoven.ToList()[i].Sorteer_personeel != null)
+                                {
+                                    AllEmployeesBilthoven.ToList()[i].Sorteer_personeel = "✓";
+                                }
+                                if (AllEmployeesBilthoven.ToList()[i].Bilthoven != null)
+                                {
+                                    AllEmployeesBilthoven.ToList()[i].Bilthoven = "✓";
+                                }
+                                if (AllEmployeesBilthoven.ToList()[i].Almere != null)
+                                {
+                                    AllEmployeesBilthoven.ToList()[i].Almere = "✓";
+                                }
+                                if (AllEmployeesBilthoven.ToList()[i].Lelystad != null)
+                                {
+                                    AllEmployeesBilthoven.ToList()[i].Lelystad = "✓";
+                                }
+                            }
+                            return AllEmployeesBilthoven.ToList();
+                        case "Almere":
+                            if (newEmployeeId != null)
+                            {
+                                cnn.Execute($"insert into Personeel (Voornaam, Achternaam, PersNr) values (@Voornaam, @Achternaam, @PersNr)", newEmployeeId);
+                                cnn.Execute($"insert into Functie (Bezorger, Depot_personeel, Sorteer_personeel) values (@Bezorger, @Depot_personeel, @Sorteer_personeel)", newEmployeeId);
+                                cnn.Execute($"insert into Depots (Almere, Bilthoven, Lelystad) values (@PersNr, @Bilthoven, @Lelystad)", newEmployeeId);
+                            }
+                            var AllEmployeesAlmere = cnn.Query<AddNewEmployeeId>("select Naam as Bedrijfsnaam, Voornaam, Achternaam, PersNr, Bezorger, Depot_personeel, Sorteer_personeel, Almere, Bilthoven, Lelystad from Personeel inner join Functie on Functie.Bezorger = Personeel.PersNr left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf inner join Depots where Personeel.PersNr = Almere");
+                            for (int i = 0; i < AllEmployeesAlmere.ToList().Count; i++)
+                            {
+                                if (AllEmployeesAlmere.ToList()[i].Bezorger != null)
+                                {
+                                    AllEmployeesAlmere.ToList()[i].Bezorger = "✓";
+                                }
+                                if (AllEmployeesAlmere.ToList()[i].Depot_personeel != null)
+                                {
+                                    AllEmployeesAlmere.ToList()[i].Depot_personeel = "✓";
+                                }
+                                if (AllEmployeesAlmere.ToList()[i].Sorteer_personeel != null)
+                                {
+                                    AllEmployeesAlmere.ToList()[i].Sorteer_personeel = "✓";
+                                }
+                                if (AllEmployeesAlmere.ToList()[i].Bilthoven != null)
+                                {
+                                    AllEmployeesAlmere.ToList()[i].Bilthoven = "✓";
+                                }
+                                if (AllEmployeesAlmere.ToList()[i].Almere != null)
+                                {
+                                    AllEmployeesAlmere.ToList()[i].Almere = "✓";
+                                }
+                                if (AllEmployeesAlmere.ToList()[i].Lelystad != null)
+                                {
+                                    AllEmployeesAlmere.ToList()[i].Lelystad = "✓";
+                                }
+                            }
+                            return AllEmployeesAlmere.ToList();
+                        case "Lelystad":
+                            if (newEmployeeId != null)
+                            {
+                                cnn.Execute($"insert into Personeel (Voornaam, Achternaam, PersNr) values (@Voornaam, @Achternaam, @PersNr)", newEmployeeId);
+                                cnn.Execute($"insert into Functie (Bezorger, Depot_personeel, Sorteer_personeel) values (@Bezorger, @Depot_personeel, @Sorteer_personeel)", newEmployeeId);
+                                cnn.Execute($"insert into Depots (Lelystad, Bilthoven, Almere) values (@PersNr, @Bilthoven, @Almere)", newEmployeeId);
+                            }
+                            var AllEmployeesLelystad = cnn.Query<AddNewEmployeeId>("select Naam as Bedrijfsnaam, Voornaam, Achternaam, PersNr, Bezorger, Depot_personeel, Sorteer_personeel, Almere, Bilthoven, Lelystad from Personeel inner join Functie on Functie.Bezorger = Personeel.PersNr left join Bedrijven on Bedrijven.Naam = Personeel.Bedrijf inner join Depots where Personeel.PersNr = Lelystad");
+                            for (int i = 0; i < AllEmployeesLelystad.ToList().Count; i++)
+                            {
+                                if (AllEmployeesLelystad.ToList()[i].Bezorger != null)
+                                {
+                                    AllEmployeesLelystad.ToList()[i].Bezorger = "✓";
+                                }
+                                if (AllEmployeesLelystad.ToList()[i].Depot_personeel != null)
+                                {
+                                    AllEmployeesLelystad.ToList()[i].Depot_personeel = "✓";
+                                }
+                                if (AllEmployeesLelystad.ToList()[i].Sorteer_personeel != null)
+                                {
+                                    AllEmployeesLelystad.ToList()[i].Sorteer_personeel = "✓";
+                                }
+                                if (AllEmployeesLelystad.ToList()[i].Bilthoven != null)
+                                {
+                                    AllEmployeesLelystad.ToList()[i].Bilthoven = "✓";
+                                }
+                                if (AllEmployeesLelystad.ToList()[i].Almere != null)
+                                {
+                                    AllEmployeesLelystad.ToList()[i].Almere = "✓";
+                                }
+                                if (AllEmployeesLelystad.ToList()[i].Lelystad != null)
+                                {
+                                    AllEmployeesLelystad.ToList()[i].Lelystad = "✓";
+                                }
+                            }
+                            return AllEmployeesLelystad.ToList();
+                        default:
+                            return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Gebruiker bestaat al");
+                MessageBox.Show("Admin error report: " + Environment.NewLine + ex.Message);
+                return null;
             }
         }
     }
