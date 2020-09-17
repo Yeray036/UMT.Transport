@@ -9,7 +9,7 @@ namespace UMT.Transport.Classes
 {
     public class PersonModel
     {
-        public string Bedrijfs_Naam { get; set; }
+        public string Bedrijfsnaam { get; set; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
         public int PersNr { get; set; }
@@ -18,32 +18,43 @@ namespace UMT.Transport.Classes
         public string Eind_tijd { get; set; }
     }
 
+    public class SaveNewPerson
+    {
+        public int PersId { get; set; }
+        public string Datum { get; set; }
+        public string Begin_tijd { get; set; }
+        public string Eind_tijd { get; set; }
+        public int Depot { get; set; }
+        public int Functie { get; set; }
+    }
+
     public class AllEmployeesPerDepot
     {
-        public string Bedrijfs_Naam { get; set; }
+        public string Bedrijfsnaam { get; set; }
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
         public string PersNr { get; set; }
         public string Datum { get; set; }
         public string Begin_tijd { get; set; }
         public string Eind_tijd { get; set; }
-        public string Bezorger { get; set; }
-        public string Depot_personeel { get; set; }
-        public string Sorteer_personeel { get; set; }
+        public string Functie { get; set; }
     }
 
     public class Functions
     {
-        public int Bezorger { get; set; }
-        public int Depot_personeel { get; set; }
-        public int Sorteer_personeel { get; set; }
+        public int Functie { get; set; }
     }
 
     public class Depots
     {
-        public string Bilthoven { get; set; }
-        public string Almere { get; set; }
-        public string Lelystad { get; set; }
+        public int Depot { get; set; }
+    }
+
+    public class EmployeeHasFunctie
+    {
+        public static int Bezorger { get; set; }
+        public static int Sorteerpersoneel { get; set; }
+        public static int Depotpersoneel { get; set; }
     }
 
     public class AddNewEmployeeId
@@ -52,25 +63,31 @@ namespace UMT.Transport.Classes
         public string Voornaam { get; set; }
         public string Achternaam { get; set; }
         public int PersNr { get; set; }
-        public string Bezorger { get; set; }
-        public string Depot_personeel { get; set; }
-        public string Sorteer_personeel { get; set; }
-        public string Bilthoven { get; set; }
-        public string Almere { get; set; }
-        public string Lelystad { get; set; }
+        public string Depot { get; set; }
+        public string Functie { get; set; }
+        
     }
 
-    public class DeleteEmployeeWorkday 
+    public class PersoneelTabel
     {
-        public string Datum { get; set; }
-        public string Begin_tijd { get; set; }
-        public string Eind_tijd { get; set; }
-        public string PersId { get; set; }
-        public string Bilthoven { get; set; }
-        public string Almere { get; set; }
-        public string Lelystad { get; set; }
-        public string Bezorger { get; set; }
-        public string Depot_personeel { get; set; }
-        public string Sorteer_personeel { get; set; }
+        public string Bedrijfsnaam { get; set; }
+        public string Voornaam { get; set; }
+        public string Achternaam { get; set; }
+        public int PersNr { get; set; }
+    }
+
+    public class FunctieTabel
+    {
+        public int PersNr { get; set; }
+        public string BezorgerInput { get; set; }
+        public string DepotwerkInput { get; set; }
+        public string SorteerwerkInput { get; set; }
+    }
+    public class DepotTabel
+    {
+        public int PersNr { get; set; }
+        public string BilthovenInput { get; set; }
+        public string AlmereInput { get; set; }
+        public string LelystadInput { get; set; }
     }
 }

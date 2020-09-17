@@ -48,5 +48,7 @@
                 </StackPanel>
             </Button>
         </StackPanel>
+
+        <DataGrid Grid.Row="0" Grid.Column="1" x:Name="CurrentEmployeeListDataGrid" Margin="10" CanUserAddRows="False"/>
     </Grid>
 </Page>

@@ -56,7 +56,7 @@ namespace UMT.Transport.Pages.AdminPanel
                 LelystadCheckbox.IsEnabled = false;
                 LelystadCheckbox.Content = "Al geactiveerd";
             }
-            CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SaveNewEmployee(null);
+            CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SaveNewEmployee(null, null, null);
         }
 
         private void AddNewEmployee_Btn(object sender, RoutedEventArgs e)
@@ -65,40 +65,48 @@ namespace UMT.Transport.Pages.AdminPanel
             {
                 if (bezorger != false || depotpersoneel != false || sorteerpersoneel != false)
                 {
-                    AddNewEmployeeId newEmployeeId = new AddNewEmployeeId();
-                    if (Bilthoven == true)
+                    PersoneelTabel newEmployee = new PersoneelTabel();
+                    FunctieTabel newEmployeeFuncties = new FunctieTabel();
+                    DepotTabel newEmployeeDepots = new DepotTabel();
+                    if (Bilthoven == true | BilthovenCheckbox.IsEnabled == false)
                     {
-                        newEmployeeId.Bilthoven = PersNrTextbox.Text;
+                        newEmployeeDepots.BilthovenInput = "1";
                     }
-                    if (Almere == true)
+                    if (Almere == true | AlmereCheckbox.IsEnabled == false)
                     {
-                        newEmployeeId.Almere = PersNrTextbox.Text;
+                        newEmployeeDepots.AlmereInput = "2";
                     }
-                    if (Lelystad == true)
+                    if (Lelystad == true | LelystadCheckbox.IsEnabled == false)
                     {
-                        newEmployeeId.Lelystad = PersNrTextbox.Text;
+                        newEmployeeDepots.LelystadInput = "3";
                     }
                     if (UcDepots.SelectedDepot == "Bilthoven")
                     {
-                        newEmployeeId.Bedrijfsnaam = CompanyComboBox.SelectedItem.ToString();
+                        newEmployee.Bedrijfsnaam = CompanyComboBox.SelectedItem.ToString();
                     }
-                    newEmployeeId.Voornaam = VoornaamTextbox.Text;
-                    newEmployeeId.Achternaam = AchternaamTextbox.Text;
-                    newEmployeeId.PersNr = int.Parse(PersNrTextbox.Text);
+                    else
+                    {
+                        newEmployee.Bedrijfsnaam = null;
+                    }
+                    newEmployee.Voornaam = VoornaamTextbox.Text;
+                    newEmployee.Achternaam = AchternaamTextbox.Text;
+                    newEmployee.PersNr = int.Parse(PersNrTextbox.Text);
+                    newEmployeeDepots.PersNr = int.Parse(PersNrTextbox.Text);
+                    newEmployeeFuncties.PersNr = int.Parse(PersNrTextbox.Text);
                     if (bezorger == true)
                     {
-                        newEmployeeId.Bezorger = PersNrTextbox.Text;
+                        newEmployeeFuncties.BezorgerInput = "1";
                     }
                     if (depotpersoneel == true)
                     {
-                        newEmployeeId.Depot_personeel = PersNrTextbox.Text;
+                        newEmployeeFuncties.DepotwerkInput = "3";
                     }
                     if (sorteerpersoneel == true)
                     {
-                        newEmployeeId.Sorteer_personeel = PersNrTextbox.Text;
+                        newEmployeeFuncties.SorteerwerkInput = "2";
                     }
-                    SqliteHandler.SaveNewEmployee(newEmployeeId);
-                    CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SaveNewEmployee(null);
+                    SqliteHandler.SaveNewEmployee(newEmployee, newEmployeeFuncties, newEmployeeDepots);
+                    CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SavedPersonReturnList;
                     if (CompanyComboBox.Text != null)
                     {
                         CompanyComboBox.Text = "";

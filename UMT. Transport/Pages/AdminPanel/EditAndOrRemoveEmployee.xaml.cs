@@ -56,6 +56,19 @@ namespace UMT.Transport.Pages.AdminPanel
             {
                 CompanyComboBox.ItemsSource = SqliteHandler.LoadAllCompanyNames();
             }
+            if (UcDepots.SelectedDepot == "Bilthoven")
+            {
+                BilthovenCheckbox.Content = "Bilthoven / Al geactiveerd";
+            }
+            if (UcDepots.SelectedDepot == "Almere")
+            {
+                AlmereCheckbox.Content = "Almere / Al geactiveerd";
+            }
+            if (UcDepots.SelectedDepot == "Lelystad")
+            {
+                LelystadCheckbox.Content = "Lelystad / Al geactiveerd";
+            }
+            CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SaveNewEmployee(null, null, null);
         }
         private void IsBezorger_Checked(object sender, RoutedEventArgs e)
         {
@@ -119,43 +132,109 @@ namespace UMT.Transport.Pages.AdminPanel
 
         private void UpdateEmployee_Btn(object sender, RoutedEventArgs e)
         {
-
+            if (NameComboBox.Text != string.Empty && LastNameFieldComboBox.Text != string.Empty && PersNrTextbox.Text != string.Empty)
+            {
+                if (bezorger != false || depotpersoneel != false || sorteerpersoneel != false)
+                {
+                    PersoneelTabel newEmployee = new PersoneelTabel();
+                    FunctieTabel newEmployeeFuncties = new FunctieTabel();
+                    DepotTabel newEmployeeDepots = new DepotTabel();
+                    if (Bilthoven == true)
+                    {
+                        newEmployeeDepots.BilthovenInput = "1";
+                    }
+                    else
+                    {
+                        newEmployeeDepots.BilthovenInput = null;
+                    }
+                    if (Almere == true)
+                    {
+                        newEmployeeDepots.AlmereInput = "2";
+                    }
+                    else
+                    {
+                        newEmployeeDepots.AlmereInput = null;
+                    }
+                    if (Lelystad == true)
+                    {
+                        newEmployeeDepots.LelystadInput = "3";
+                    }
+                    else
+                    {
+                        newEmployeeDepots.LelystadInput = null;
+                    }
+                    if (UcDepots.SelectedDepot == "Bilthoven")
+                    {
+                        newEmployee.Bedrijfsnaam = CompanyComboBox.SelectedItem.ToString();
+                    }
+                    else
+                    {
+                        newEmployee.Bedrijfsnaam = null;
+                    }
+                    newEmployee.Voornaam = NameComboBox.Text;
+                    newEmployee.Achternaam = LastNameFieldComboBox.Text;
+                    newEmployee.PersNr = int.Parse(PersNrTextbox.Text);
+                    newEmployeeDepots.PersNr = int.Parse(PersNrTextbox.Text);
+                    newEmployeeFuncties.PersNr = int.Parse(PersNrTextbox.Text);
+                    if (bezorger == true)
+                    {
+                        newEmployeeFuncties.BezorgerInput = "1";
+                    }
+                    else
+                    {
+                        newEmployeeFuncties.BezorgerInput = null;
+                    }
+                    if (depotpersoneel == true)
+                    {
+                        newEmployeeFuncties.DepotwerkInput = "3";
+                    }
+                    else
+                    {
+                        newEmployeeFuncties.DepotwerkInput = null;
+                    }
+                    if (sorteerpersoneel == true)
+                    {
+                        newEmployeeFuncties.SorteerwerkInput = "2";
+                    }
+                    else
+                    {
+                        newEmployeeFuncties.SorteerwerkInput = null;
+                    }
+                    SqliteHandler.UpdateEmployee(newEmployee, newEmployeeFuncties, newEmployeeDepots);
+                    CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SavedPersonReturnList;
+                    NameComboBox.Text = null;
+                    NameComboBox.ItemsSource = null;
+                    LastNameFieldComboBox.Text = null;
+                    PersNrTextbox.Text = null;
+                    ResetFunctieAndDepotSelection();
+                }
+            }
         }
 
         private void RemoveEmployee_Btn(object sender, RoutedEventArgs e)
         {
-
+            if (PersNrTextbox.Text != null)
+            {
+                if (MessageBox.Show($"Weet je zeker dat je {NameComboBox.Text} wilt verwijderen {Environment.NewLine}en al zijn gewerkte dagen?", "Verwijder medewerker", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                {
+                    SqliteHandler.DeleteEmployee(this.PersNrTextbox.Text);
+                    CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SavedPersonReturnList;
+                    ResetFunctieAndDepotSelection();
+                    NameComboBox.Text = null;
+                    NameComboBox.ItemsSource = null;
+                    LastNameFieldComboBox.Text = null;
+                    PersNrTextbox.Text = null;
+                }
+                else
+                {
+                    MessageBox.Show($"{NameComboBox.Text} verwijderen, is geannuleerd");
+                }
+            }
         }
 
         private void FillNameComboBox(object sender, SelectionChangedEventArgs e)
         {
-            NameComboBox.SelectedItem = null;
-            LastNameFieldComboBox.ItemsSource = null;
-            PersNrTextbox.Text = "";
-            if (BezorgerCheckbox.IsChecked == true)
-            {
-                BezorgerCheckbox.IsChecked = false;
-            }
-            if (DepotCheckbox.IsChecked == true)
-            {
-                DepotCheckbox.IsChecked = false;
-            }
-            if (SorteerCheckbox.IsChecked == true)
-            {
-                SorteerCheckbox.IsChecked = false;
-            }
-            if (Bilthoven == true)
-            {
-                BilthovenCheckbox.IsChecked = false;
-            }
-            if (Almere == true)
-            {
-                AlmereCheckbox.IsChecked = false;
-            }
-            if (Lelystad == true)
-            {
-                LelystadCheckbox.IsChecked = false;
-            }
+            ResetFunctieAndDepotSelection();
             List<string> names = new List<string>();
             foreach (var item in SqliteHandler.LoadAllEmployeesOnName(this.CompanyComboBox.SelectedItem.ToString()))
             {
@@ -175,30 +254,7 @@ namespace UMT.Transport.Pages.AdminPanel
         {
             if (NameComboBox.SelectedItem != null)
             {
-                if (BezorgerCheckbox.IsChecked == true)
-                {
-                    BezorgerCheckbox.IsChecked = false;
-                }
-                if (DepotCheckbox.IsChecked == true)
-                {
-                    DepotCheckbox.IsChecked = false;
-                }
-                if (SorteerCheckbox.IsChecked == true)
-                {
-                    SorteerCheckbox.IsChecked = false;
-                }
-                if (Bilthoven == true)
-                {
-                    BilthovenCheckbox.IsChecked = false;
-                }
-                if (Almere == true)
-                {
-                    AlmereCheckbox.IsChecked = false;
-                }
-                if (Lelystad == true)
-                {
-                    LelystadCheckbox.IsChecked = false;
-                }
+                ResetFunctieAndDepotSelection();
                 LastNameFieldComboBox.SelectedItem = "";
                 PersNrTextbox.Text = "";
                 var LastName = SqliteHandler.LoadAllEmployeesOnLastName(NameComboBox.SelectedValue.ToString());
@@ -223,30 +279,7 @@ namespace UMT.Transport.Pages.AdminPanel
         {
             if (NameComboBox.SelectedItem != null && LastNameFieldComboBox.SelectedItem != null)
             {
-                if (BezorgerCheckbox.IsChecked == true)
-                {
-                    BezorgerCheckbox.IsChecked = false;
-                }
-                if (DepotCheckbox.IsChecked == true)
-                {
-                    DepotCheckbox.IsChecked = false;
-                }
-                if (SorteerCheckbox.IsChecked == true)
-                {
-                    SorteerCheckbox.IsChecked = false;
-                }
-                if (Bilthoven == true)
-                {
-                    BilthovenCheckbox.IsChecked = false;
-                }
-                if (Almere == true)
-                {
-                    AlmereCheckbox.IsChecked = false;
-                }
-                if (Lelystad == true)
-                {
-                    LelystadCheckbox.IsChecked = false;
-                }
+                ResetFunctieAndDepotSelection();
                 var PersNr = SqliteHandler.LoadEmployeePersNr(NameComboBox.SelectedItem.ToString(), LastNameFieldComboBox.SelectedValue.ToString());
                 PersNrTextbox.Text = PersNr[0];
             }
@@ -254,21 +287,22 @@ namespace UMT.Transport.Pages.AdminPanel
 
         private void ActivateFunctieAndDepotEdit(object sender, RoutedEventArgs e)
         {
+            ResetFunctieAndDepotSelection();
             if (this.PersNrTextbox.Text != String.Empty)
             {
                 int persNr = int.Parse(this.PersNrTextbox.Text);
                 List<Functions> employeeFunctions = SqliteHandler.GetFunctieBasedOnPersNr(persNr);
                 if (employeeFunctions != null)
                 {
-                    if (employeeFunctions[0].Bezorger != 0)
+                    if (EmployeeHasFunctie.Bezorger == 1)
                     {
                         BezorgerCheckbox.IsChecked = true;
                     }
-                    if (employeeFunctions[0].Depot_personeel != 0)
+                    if (EmployeeHasFunctie.Depotpersoneel == 3)
                     {
                         DepotCheckbox.IsChecked = true;
                     }
-                    if (employeeFunctions[0].Sorteer_personeel != 0)
+                    if (EmployeeHasFunctie.Sorteerpersoneel == 2)
                     {
                         SorteerCheckbox.IsChecked = true;
                     }
@@ -291,6 +325,25 @@ namespace UMT.Transport.Pages.AdminPanel
             {
                 return;
             }
+        }
+
+        public void ResetFunctieAndDepotSelection()
+        {
+            BezorgerCheckbox.IsChecked = false;
+            bezorger = false;
+            DepotCheckbox.IsChecked = false;
+            depotpersoneel = false;
+            SorteerCheckbox.IsChecked = false;
+            sorteerpersoneel = false;
+            BilthovenCheckbox.IsChecked = false;
+            Bilthoven = false;
+            AlmereCheckbox.IsChecked = false;
+            Almere = false;
+            LelystadCheckbox.IsChecked = false;
+            Lelystad = false;
+            EmployeeHasFunctie.Bezorger = 0;
+            EmployeeHasFunctie.Depotpersoneel = 0;
+            EmployeeHasFunctie.Sorteerpersoneel = 0;
         }
     }
 }
