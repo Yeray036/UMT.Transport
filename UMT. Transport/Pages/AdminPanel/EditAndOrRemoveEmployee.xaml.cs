@@ -202,6 +202,7 @@ namespace UMT.Transport.Pages.AdminPanel
                     }
                     SqliteHandler.UpdateEmployee(newEmployee, newEmployeeFuncties, newEmployeeDepots);
                     CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SavedPersonReturnList;
+                    MessageBox.Show($"{NameComboBox.Text} {LastNameFieldComboBox.Text} is geupdate");
                     NameComboBox.Text = null;
                     NameComboBox.ItemsSource = null;
                     LastNameFieldComboBox.Text = null;
@@ -215,7 +216,7 @@ namespace UMT.Transport.Pages.AdminPanel
         {
             if (PersNrTextbox.Text != null)
             {
-                if (MessageBox.Show($"Weet je zeker dat je {NameComboBox.Text} wilt verwijderen {Environment.NewLine}en al zijn gewerkte dagen?", "Verwijder medewerker", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                if (MessageBox.Show($"Weet je zeker dat je {NameComboBox.Text} {LastNameFieldComboBox.Text} wilt verwijderen {Environment.NewLine}en al zijn gewerkte dagen?", "Verwijder medewerker", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
                     SqliteHandler.DeleteEmployee(this.PersNrTextbox.Text);
                     CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SavedPersonReturnList;
@@ -227,7 +228,7 @@ namespace UMT.Transport.Pages.AdminPanel
                 }
                 else
                 {
-                    MessageBox.Show($"{NameComboBox.Text} verwijderen, is geannuleerd");
+                    MessageBox.Show($"{NameComboBox.Text} {LastNameFieldComboBox.Text} verwijderen, is geannuleerd");
                 }
             }
         }

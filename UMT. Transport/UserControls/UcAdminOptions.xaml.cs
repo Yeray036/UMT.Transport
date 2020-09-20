@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using UMT.Transport.Classes;
 using UMT.Transport.Pages.AdminPanel;
 
 namespace UMT.Transport.UserControls
@@ -82,6 +83,20 @@ namespace UMT.Transport.UserControls
             else
             {
                 MainWindow.mainWindow.MainFrame.Navigate(editOrRemoveEmployeePage);
+            }
+        }
+
+        private void OpenVacationPermission_Btn(object sender, RoutedEventArgs e)
+        {
+            VacationPermission vacationPermissionPage = new VacationPermission();
+            if (MainWindow.mainWindow.MainFrame.CanGoBack)
+            {
+                MainWindow.mainWindow.MainFrame.RemoveBackEntry();
+                MainWindow.mainWindow.MainFrame.Navigate(vacationPermissionPage);
+            }
+            else
+            {
+                MainWindow.mainWindow.MainFrame.Navigate(vacationPermissionPage);
             }
         }
     }

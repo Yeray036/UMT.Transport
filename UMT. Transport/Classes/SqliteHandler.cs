@@ -38,6 +38,8 @@ namespace UMT.Transport.Classes
          */
         public static List<string> Bedrijven;
         public static dynamic SavedPersonReturnList;
+        public static string CurrentEmployeeName;
+
         //Connection string.
         private static string LoadConnectionString(string id = "UmtDb")
         {
@@ -809,14 +811,22 @@ namespace UMT.Transport.Classes
             {
                 using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
                 {
-                    cnn.Execute("insert into Werkdagen (Datum, Begin_tijd, Eind_tijd, PersId, Depot, Functie) values (@Datum, @Begin_tijd, @Eind_tijd, @PersId, @Depot, @Functie)", employee);
+                    var count = cnn.Query<EmployeeVacationCount>($"select Verlof_start as start, Verlof_eind as eind, count() as hasCount from Verlof where Verlof.PersNr = {employee.PersId} and '{employee.Datum}' BETWEEN Verlof_start and Verlof_eind", new DynamicParameters());
+                    if (count.ToList()[0].hasCount >= 1)
+                    {
+                        MessageBox.Show($"{CurrentEmployeeName} is met verlof van {count.ToList()[0].start} tot en met {count.ToList()[0].eind}.");
+                    }
+                    else
+                    {
+                        cnn.Execute($"insert into Werkdagen (Datum, Begin_tijd, Eind_tijd, PersId, Depot, Functie) select '{employee.Datum}', '{employee.Begin_tijd}', '{employee.Eind_tijd}', {employee.PersId}, {employee.Depot}, {employee.Functie} where '{employee.Datum}' not BETWEEN '{count.ToList()[0].start}' and '{count.ToList()[0].eind}'");
+                    }
                 }
             }
             catch (Exception ex)
             {
                 if (employee != null)
                 {
-                    MessageBox.Show($"Je hebt {employee.PersId} al ingepland op {employee.Datum} {Environment.NewLine}en of begin tijd {employee.Begin_tijd} of eind tijd {employee.Eind_tijd} is hetzelfde");
+                    MessageBox.Show($"Je hebt {CurrentEmployeeName} al ingepland op {employee.Datum} {Environment.NewLine}en of begin tijd {employee.Begin_tijd} of eind tijd {employee.Eind_tijd} is hetzelfde");
                 }
                 else
                 {
@@ -984,7 +994,7 @@ namespace UMT.Transport.Classes
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show("Geen veranderingen uigevoerd.");
                 MessageBox.Show(ex.Message);
@@ -1000,6 +1010,7 @@ namespace UMT.Transport.Classes
                     cnn.Execute($"delete from PersoneelHasFunctie where PersNr = {PersNr}");
                     cnn.Execute($"delete from PersoneelHasDepot where PersNr = {PersNr}");
                     cnn.Execute($"delete from Werkdagen where PersId = {PersNr}");
+                    cnn.Execute($"delete from Verlof where PersNr = {PersNr}");
                     cnn.Execute($"delete from Personeel where PersNr = {PersNr}");
                     if (UcDepots.SelectedDepot == "Bilthoven")
                     {
@@ -1025,6 +1036,84 @@ namespace UMT.Transport.Classes
             {
                 MessageBox.Show("Werknemer kon niet worden verwijderd.");
                 MessageBox.Show(ex.Message);
+            }
+        }
+
+        public static List<EmployeeNameLastnameAndPersnr> GetEmployeeNamesAndPersNr()
+        {
+            try
+            {
+                using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+                {
+                    switch (UcDepots.SelectedDepot)
+                    {
+                        case "Bilthoven":
+                            var BilthovenEmployees = cnn.Query<EmployeeNameLastnameAndPersnr>($"select Voornaam || ' ' || Achternaam as Naam from Personeel left join PersoneelHasDepot on PersoneelHasDepot.PersNr = Personeel.PersNr where PersoneelHasDepot.Depot = 1", new DynamicParameters());
+                            return BilthovenEmployees.ToList();
+                        case "Almere":
+                            var AlmereEmployees = cnn.Query<EmployeeNameLastnameAndPersnr>($"select Voornaam || ' ' || Achternaam as Naam from Personeel left join PersoneelHasDepot on PersoneelHasDepot.PersNr = Personeel.PersNr where PersoneelHasDepot.Depot = 2", new DynamicParameters());
+                            return AlmereEmployees.ToList();
+                        case "Lelystad":
+                            var LelystadEmployees = cnn.Query<EmployeeNameLastnameAndPersnr>($"select Voornaam || ' ' || Achternaam as Naam from Personeel left join PersoneelHasDepot on PersoneelHasDepot.PersNr = Personeel.PersNr where PersoneelHasDepot.Depot = 3", new DynamicParameters());
+                            return LelystadEmployees.ToList();
+                        default:
+                            return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+
+        public static List<FullVacationList> fullVacations()
+        {
+            try
+            {
+                using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+                {
+                    var VacationList = cnn.Query<FullVacationList>($"select Voornaam || ' ' || Achternaam as Naam, Verlof_start, Verlof_eind, Verlof.PersNr from Verlof left join Personeel on Personeel.PersNr = Verlof.PersNr", new DynamicParameters());
+                    for (int i = 0; i < VacationList.ToList().Count; i++)
+                    {
+                        DateTime dt = Convert.ToDateTime(VacationList.ToList()[i].Verlof_start);
+                        dt.ToString("dd-MM-yyyy");
+                        VacationList.ToList()[i].Verlof_start = dt.ToShortDateString();
+                        DateTime dt2 = Convert.ToDateTime(VacationList.ToList()[i].Verlof_eind);
+                        dt2.ToString("dd-MM-yyyy");
+                        VacationList.ToList()[i].Verlof_eind = dt2.ToShortDateString();
+                    }
+                    return VacationList.ToList();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Kan verlof schema niet ophalen: {Environment.NewLine} {ex.Message}");
+                return null;
+            }
+        }
+
+        public static void InsertVacationIntoDb(EmployeeVacation employeeVacation)
+        {
+            try
+            {
+                using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+                {
+                    if (employeeVacation != null)
+                    {
+                        cnn.Execute($"insert into Verlof (Verlof_start, Verlof_eind, PersNr) values ('{employeeVacation.Verlof_start}', '{employeeVacation.Verlof_eind}', {employeeVacation.PersNr})");
+                    }
+                    else
+                    {
+                        return;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Contact admin " + ex.Message);
+                return;
             }
         }
     }

@@ -111,6 +111,7 @@ namespace UMT.Transport.Pages.AdminPanel
                     {
                         CompanyComboBox.Text = "";
                     }
+                    MessageBox.Show($"{VoornaamTextbox.Text} {AchternaamTextbox.Text} is toegevoed aan de database.");
                     VoornaamTextbox.Text = null;
                     AchternaamTextbox.Text = null;
                     PersNrTextbox.Text = null;

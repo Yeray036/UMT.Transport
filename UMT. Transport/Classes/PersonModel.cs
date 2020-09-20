@@ -57,15 +57,30 @@ namespace UMT.Transport.Classes
         public static int Depotpersoneel { get; set; }
     }
 
-    public class AddNewEmployeeId
+    public class EmployeeNameLastnameAndPersnr
     {
-        public string Bedrijfsnaam { get; set; }
-        public string Voornaam { get; set; }
-        public string Achternaam { get; set; }
+        public string Naam { get; set; }
+    }
+
+    public class EmployeeVacationCount
+    {
+        public int hasCount { get; set; }
+        public string start { get; set; }
+        public string eind { get; set; }
+    }
+
+    public class EmployeeVacation
+    {
+        public string Verlof_start { get; set; }
+        public string Verlof_eind { get; set; }
         public int PersNr { get; set; }
-        public string Depot { get; set; }
-        public string Functie { get; set; }
-        
+    }
+    public class FullVacationList
+    {
+        public string Naam { get; set; }
+        public string Verlof_start { get; set; }
+        public string Verlof_eind { get; set; }
+        public int PersNr { get; set; }
     }
 
     public class PersoneelTabel

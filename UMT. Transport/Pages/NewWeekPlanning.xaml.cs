@@ -263,6 +263,7 @@ namespace UMT.Transport.Pages
             }
             if (employee.PersId != -1 && employee.Datum != String.Empty)
             {
+                SqliteHandler.CurrentEmployeeName = $"{this.NameFieldComboBox.Text} {this.LastNameFieldComboBox.Text}";
                 SqliteHandler.SaveNewEmployeeWorkDay(employee);
                 await Task.Run(() => Dispatcher.BeginInvoke(
                     new ThreadStart(async () => await LoadDataGridFromDate(calendar))));
