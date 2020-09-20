@@ -35,17 +35,6 @@ namespace UMT.Transport.Pages
         {
             InitializeComponent();
             SqliteHandler.LoadAllEmployeesOnName("");
-            /*if (UcFunctions.SelectedFunction != "AllEmployees")
-            {
-                FunctieFieldComboBox.Visibility = Visibility.Hidden;
-            }
-            else
-            {
-                FunctieFieldComboBox.Visibility = Visibility.Visible;
-                FunctieFieldComboBox.ItemsSource = FunctieNames();
-
-            }
-            */
             if (UcFunctions.SelectedFunction != "Bezorger" || UcDepots.SelectedDepot != "Bilthoven")
             {
                 SqliteHandler.Bedrijven = null;
@@ -67,7 +56,7 @@ namespace UMT.Transport.Pages
             }
             else
             {
-                CompanyFieldComboBox.ItemsSource = SqliteHandler.Bedrijven;
+                CompanyFieldComboBox.ItemsSource = SqliteHandler.LoadAllCompanyNames();
             }
             FunctieNames();
             BeginTimeFieldComboBox.ItemsSource = FunctieBeginTijden();
@@ -153,21 +142,27 @@ namespace UMT.Transport.Pages
         {
             if (calendar.SelectedDate.HasValue)
             {
-                employees.Clear();
-                AllEmployees.Clear();
+                if (employees != null)
+                {
+                    employees.Clear();
+                }
+                if (AllEmployees != null)
+                {
+                    AllEmployees.Clear();
+                }
                 DayDataGrid.ItemsSource = null;
                 DateTime date = calendar.SelectedDate.Value;
                 DayAndMonth = calendar.SelectedDate.Value;
-                this.DatumInputBox.Text = $"{date.Day}-{date.Month}-{date.Year}";
+                this.DatumInputBox.Text = $"{date.Year}-{date.Month}-{date.Day}";
                 year = calendar.SelectedDate.Value;
                 if (UcFunctions.SelectedFunction == "AllEmployees")
                 {
-                    AllEmployees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Day}-{date.Month}", $"{date.Year}"));
+                    AllEmployees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Year}-{date.Month}-{date.Day}"));
                     DayDataGrid.ItemsSource = AllEmployees;
                 }
                 else
                 {
-                    employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Day}-{date.Month}", $"{date.Year}"));
+                    employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Year}-{date.Month}-{date.Day}"));
                     DayDataGrid.ItemsSource = employees;
                 }
             }
@@ -179,21 +174,21 @@ namespace UMT.Transport.Pages
             {
                 var PersNr = SqliteHandler.LoadEmployeePersNr(NameFieldComboBox.SelectedItem.ToString(), LastNameFieldComboBox.SelectedValue.ToString());
                 PersNrTextField.Text = PersNr[0];
-                List<string> employeeFunctions = new List<string>();
                 FunctieNames();
-                if (FunctieNames() != null)
+                List<string> employeeFunctions = new List<string>();
+                if (FunctieNames().ToList() != null)
                 {
-                    if (FunctieNames()[0].Bezorger != 0)
+                    if (EmployeeHasFunctie.Bezorger == 1)
                     {
                         employeeFunctions.Add("Bezorger");
                     }
-                    if (FunctieNames()[0].Depot_personeel != 0)
+                    if (EmployeeHasFunctie.Sorteerpersoneel == 2)
                     {
-                        employeeFunctions.Add("Depot_personeel");
+                        employeeFunctions.Add("Sorteerpersoneel");
                     }
-                    if (FunctieNames()[0].Sorteer_personeel != 0)
+                    if (EmployeeHasFunctie.Depotpersoneel == 3)
                     {
-                        employeeFunctions.Add("Sorteer_personeel");
+                        employeeFunctions.Add("Depotpersoneel");
                     }
                     FunctieFieldComboBox.ItemsSource = employeeFunctions;
                 }
@@ -224,94 +219,64 @@ namespace UMT.Transport.Pages
 
         private async void AddNewWorkDayBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (UcFunctions.SelectedFunction == "AllEmployees")
-            {
-                AllEmployeesPerDepot allEmployees = new AllEmployeesPerDepot();
 
-                allEmployees.Datum = $"{DayAndMonth.Day}-{DayAndMonth.Month}";
-                allEmployees.Jaar = $"{year.Year}";
-                allEmployees.Begin_tijd = this.BeginTimeFieldComboBox.Text;
-                allEmployees.Eind_tijd = this.EndTimeFieldComboBox.Text;
-                if (this.PersNrTextField.Text != String.Empty && allEmployees.Begin_tijd != String.Empty)
-                {
-                    allEmployees.PersNr = this.PersNrTextField.Text;
-                }
-                else
-                {
-                    allEmployees.PersNr = "-1";
-                }
-                if (allEmployees.PersNr != "-1" && allEmployees.Datum != String.Empty)
-                {
-                    switch (FunctieFieldComboBox.SelectedItem)
-                    {
-                        case "Bezorger":
-                            allEmployees.Bezorger = allEmployees.PersNr;
-                            break;
-                        case "Depot_personeel":
-                            allEmployees.Depot_personeel = allEmployees.PersNr;
-                            break;
-                        case "Sorteer_personeel":
-                            allEmployees.Sorteer_personeel = allEmployees.PersNr;
-                            break;
-                        default:
-                            break;
-                    }
-                    if (allEmployees.Bezorger == "0" || allEmployees.Bezorger == string.Empty && allEmployees.Depot_personeel == "0" || allEmployees.Depot_personeel == string.Empty && allEmployees.Sorteer_personeel == "0" || allEmployees.Sorteer_personeel == string.Empty)
-                    {
-                        MessageBox.Show("Je bent de functie vergeten");
-                        return;
-                    }
-                    else
-                    {
-                        SqliteHandler.SaveNewEmployeeWorkDay(null, allEmployees);
-                        await Task.Run(() => Dispatcher.BeginInvoke(
-                            new ThreadStart(async () => await LoadDataGridFromDate(calendar))));
-                        this.NameFieldComboBox.Text = "";
-                        this.LastNameFieldComboBox.Text = "";
-                        this.PersNrTextField.Text = "";
-                        this.BeginTimeFieldComboBox.Text = "";
-                        this.EndTimeFieldComboBox.Text = "";
-                        this.FunctieFieldComboBox.Text = "";
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Geen geldige werkdag data ingevoerd.");
-                    return;
-                }
+            SaveNewPerson employee = new SaveNewPerson();
+
+            employee.Datum = $"{year.Year}-{DayAndMonth.Month}-{DayAndMonth.Day}";
+            employee.Begin_tijd = this.BeginTimeFieldComboBox.Text;
+            employee.Eind_tijd = this.EndTimeFieldComboBox.Text;
+            switch (UcDepots.SelectedDepot)
+            {
+                case "Bilthoven":
+                    employee.Depot = 1;
+                    break;
+                case "Almere":
+                    employee.Depot = 2;
+                    break;
+                case "Lelystad":
+                    employee.Depot = 3;
+                    break;
+                default:
+                    break;
+            }
+            switch (FunctieFieldComboBox.Text)
+            {
+                case "Bezorger":
+                    employee.Functie = 1;
+                    break;
+                case "Sorteerpersoneel":
+                    employee.Functie = 2;
+                    break;
+                case "Depotpersoneel":
+                    employee.Functie = 3;
+                    break;
+                default:
+                    break;
+            }
+            if (this.PersNrTextField.Text != String.Empty && employee.Begin_tijd != String.Empty)
+            {
+                employee.PersId = int.Parse(this.PersNrTextField.Text);
             }
             else
             {
-                PersonModel employee = new PersonModel();
-
-                employee.Datum = $"{DayAndMonth.Day}-{DayAndMonth.Month}";
-                employee.Jaar = $"{year.Year}";
-                employee.Begin_tijd = this.BeginTimeFieldComboBox.Text;
-                employee.Eind_tijd = this.EndTimeFieldComboBox.Text;
-                if (this.PersNrTextField.Text != String.Empty && employee.Begin_tijd != String.Empty)
-                {
-                    employee.PersNr = int.Parse(this.PersNrTextField.Text);
-                }
-                else
-                {
-                    employee.PersNr = -1;
-                }
-                if (employee.PersNr != -1 && employee.Datum != String.Empty)
-                {
-                    SqliteHandler.SaveNewEmployeeWorkDay(employee, null);
-                    await Task.Run(() => Dispatcher.BeginInvoke(
-                        new ThreadStart(async () => await LoadDataGridFromDate(calendar))));
-                    this.NameFieldComboBox.Text = "";
-                    this.LastNameFieldComboBox.Text = "";
-                    this.PersNrTextField.Text = "";
-                    this.BeginTimeFieldComboBox.Text = "";
-                    this.EndTimeFieldComboBox.Text = "";
-                }
-                else
-                {
-                    MessageBox.Show("Geen geldige werkdag data ingevoerd.");
-                    return;
-                }
+                employee.PersId = -1;
+            }
+            if (employee.PersId != -1 && employee.Datum != String.Empty)
+            {
+                SqliteHandler.CurrentEmployeeName = $"{this.NameFieldComboBox.Text} {this.LastNameFieldComboBox.Text}";
+                SqliteHandler.SaveNewEmployeeWorkDay(employee);
+                await Task.Run(() => Dispatcher.BeginInvoke(
+                    new ThreadStart(async () => await LoadDataGridFromDate(calendar))));
+                this.NameFieldComboBox.Text = "";
+                this.LastNameFieldComboBox.Text = "";
+                this.PersNrTextField.Text = "";
+                this.BeginTimeFieldComboBox.Text = "";
+                this.EndTimeFieldComboBox.Text = "";
+            }
+            else
+            {
+                MessageBox.Show("Geen geldige werkdag data ingevoerd.");
+                return;
             }
         }
 

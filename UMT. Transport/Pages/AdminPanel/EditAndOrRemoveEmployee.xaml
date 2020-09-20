@@ -1,0 +1,54 @@
+﻿<Page x:Class="UMT.Transport.Pages.AdminPanel.EditAndOrRemoveEmployee"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UMT.Transport.Pages.AdminPanel"
+      mc:Ignorable="d" 
+      d:DesignHeight="460" d:DesignWidth="800"
+      Title="EditAndOrRemoveEmployee"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="15"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <ComboBox materialDesign:HintAssist.Hint="Bedrijfsnaam:" Margin="0,10,0,0" x:Name="CompanyComboBox" SelectionChanged="FillNameComboBox"/>
+            <ComboBox materialDesign:HintAssist.Hint="Voornaam" Margin="0,10,0,0" x:Name="NameComboBox" SelectionChanged="PlaceLastNameBasedOnName"/>
+            <ComboBox materialDesign:HintAssist.Hint="Achternaam" Margin="0,10,0,0" x:Name="LastNameFieldComboBox" SelectionChanged="PlacePersNrBasedOnNameAndLastname"/>
+            <TextBox materialDesign:HintAssist.Hint="Personeelsnummer" Margin="0,10,0,0" x:Name="PersNrTextbox" SelectionChanged="ActivateFunctieAndDepotEdit"/>
+            <CheckBox Content="Bezorger" Margin="0,10,0,0" x:Name="BezorgerCheckbox" Checked="IsBezorger_Checked" Unchecked="IsBezorger_Unchecked"/>
+            <CheckBox Content="Depotpersoneel" Margin="0,5,0,0" x:Name="DepotCheckbox" Checked="IsDepotpersoneel_Checked" Unchecked="IsDepotpersoneel_Unchecked" />
+            <CheckBox Content="Sorteerpersoneel" Margin="0,5,0,0" x:Name="SorteerCheckbox" Checked="IsSorteerpersoneel_Checked" Unchecked="IsSorteerpersoneel_Unchecked"/>
+            <Line Fill="Gray" Height="10" Stroke="Gray" Margin="0,10,0,0" X1="260"/>
+            <Label Content="Aan extra depot toevoegen"/>
+            <CheckBox Content="Bilthoven" Margin="0,5,0,0" x:Name="BilthovenCheckbox" Checked="IsBilthoven_Checked" Unchecked="IsBilthoven_Unchecked"/>
+            <CheckBox Content="Almere" Margin="0,5,0,0" x:Name="AlmereCheckbox" Checked="IsAlmere_Checked" Unchecked="IsAlmere_Unchecked"/>
+            <CheckBox Content="Lelystad" Margin="0,5,0,0" x:Name="LelystadCheckbox" Checked="IsLelystad_Checked" Unchecked="IsLelystad_Unchecked"/>
+            <Line Fill="Gray" Height="10" Stroke="Gray" Margin="0,10,0,0" X1="260"/>
+            <Button Margin="0,10,0,0" Click="UpdateEmployee_Btn">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="PersonEdit" Margin="0,0,10,0"/>
+                    <TextBlock Text="Update medewerker"/>
+                </StackPanel>
+            </Button>
+            <Button Margin="0,10,0,0" Click="RemoveEmployee_Btn" Background="Red" BorderBrush="Red">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="PersonRemove" Margin="0,0,10,0" Foreground="White"/>
+                    <TextBlock Text="Verwijder medewerker" Foreground="White"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <DataGrid Grid.Row="0" Grid.Column="1" x:Name="CurrentEmployeeListDataGrid" Margin="10" CanUserAddRows="False"/>
+    </Grid>
+</Page>

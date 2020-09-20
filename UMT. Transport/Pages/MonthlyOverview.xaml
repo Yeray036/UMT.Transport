@@ -30,7 +30,7 @@
         <Viewbox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3">
             <Calendar SelectionMode="MultipleRange" SelectedDatesChanged="ShowWeekWorkDays_calendar"/>
         </Viewbox>
-        
+
         <DataGrid Grid.Column="0" Grid.ColumnSpan="3" Grid.Row="1" x:Name="MonthlyOverviewDataGrid" CanUserAddRows="False">
         </DataGrid>
 
