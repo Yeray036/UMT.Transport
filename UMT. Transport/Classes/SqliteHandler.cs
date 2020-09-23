@@ -1116,5 +1116,105 @@ namespace UMT.Transport.Classes
                 return;
             }
         }
+
+        public static dynamic GetAllWorkdaysFromEmployee(int PersNr)
+        {
+            try
+            {
+                using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+                {
+                    switch (UcDepots.SelectedDepot)
+                    {
+                        case "Bilthoven":
+                            var BilthovenWorkdays = cnn.Query<CurrentWorkdaysEmployees>($"select Werkdagen.Datum, Werkdagen.Begin_tijd, Werkdagen.Eind_tijd, Werkdagen.Functie from Werkdagen where Werkdagen.PersId = {PersNr} and Werkdagen.Depot = 1", new DynamicParameters());
+                            for (int i = 0; i < BilthovenWorkdays.ToList().Count; i++)
+                            {
+                                DateTime dt = Convert.ToDateTime(BilthovenWorkdays.ToList()[i].Datum);
+                                dt.ToString("dd-MM-yyyy");
+                                BilthovenWorkdays.ToList()[i].Datum = dt.ToShortDateString();
+                                if (BilthovenWorkdays.ToList()[i].Functie == "1")
+                                {
+                                    BilthovenWorkdays.ToList()[i].Functie = "Bezorger";
+                                }
+                                if (BilthovenWorkdays.ToList()[i].Functie == "2")
+                                {
+                                    BilthovenWorkdays.ToList()[i].Functie = "Sorteerpersoneel";
+                                }
+                                if (BilthovenWorkdays.ToList()[i].Functie == "3")
+                                {
+                                    BilthovenWorkdays.ToList()[i].Functie = "Depotpersoneel";
+                                }
+                            }
+                            return BilthovenWorkdays.ToList();
+                        case "Almere":
+                            var AlmereWorkdays = cnn.Query<CurrentWorkdaysEmployees>($"select Werkdagen.Datum, Werkdagen.Begin_tijd, Werkdagen.Eind_tijd, Werkdagen.Functie from Werkdagen where Werkdagen.PersId = {PersNr} and Werkdagen.Depot = 2", new DynamicParameters());
+                            for (int i = 0; i < AlmereWorkdays.ToList().Count; i++)
+                            {
+                                DateTime dt = Convert.ToDateTime(AlmereWorkdays.ToList()[i].Datum);
+                                dt.ToString("dd-MM-yyyy");
+                                AlmereWorkdays.ToList()[i].Datum = dt.ToShortDateString();
+                                if (AlmereWorkdays.ToList()[i].Functie == "1")
+                                {
+                                    AlmereWorkdays.ToList()[i].Functie = "Bezorger";
+                                }
+                                if (AlmereWorkdays.ToList()[i].Functie == "2")
+                                {
+                                    AlmereWorkdays.ToList()[i].Functie = "Sorteerpersoneel";
+                                }
+                                if (AlmereWorkdays.ToList()[i].Functie == "3")
+                                {
+                                    AlmereWorkdays.ToList()[i].Functie = "Depotpersoneel";
+                                }
+                            }
+                            return AlmereWorkdays.ToList();
+                        case "Lelystad":
+                            var LelystadWorkdays = cnn.Query<CurrentWorkdaysEmployees>($"select Werkdagen.Datum, Werkdagen.Begin_tijd, Werkdagen.Eind_tijd, Werkdagen.Functie from Werkdagen where Werkdagen.PersId = {PersNr} and Werkdagen.Depot = 3", new DynamicParameters());
+                            for (int i = 0; i < LelystadWorkdays.ToList().Count; i++)
+                            {
+                                DateTime dt = Convert.ToDateTime(LelystadWorkdays.ToList()[i].Datum);
+                                dt.ToString("dd-MM-yyyy");
+                                LelystadWorkdays.ToList()[i].Datum = dt.ToShortDateString();
+                                if (LelystadWorkdays.ToList()[i].Functie == "1")
+                                {
+                                    LelystadWorkdays.ToList()[i].Functie = "Bezorger";
+                                }
+                                if (LelystadWorkdays.ToList()[i].Functie == "2")
+                                {
+                                    LelystadWorkdays.ToList()[i].Functie = "Sorteerpersoneel";
+                                }
+                                if (LelystadWorkdays.ToList()[i].Functie == "3")
+                                {
+                                    LelystadWorkdays.ToList()[i].Functie = "Depotpersoneel";
+                                }
+                            }
+                            return LelystadWorkdays.ToList();
+                        default:
+                            return null;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return null;
+            }
+        }
+        public static void RemoveSelectedWorkdays(List<string> selectedDates, int PersNr, List<string> selectedDateTimes)
+        {
+            try
+            {
+                using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
+                {
+                    for (int i = 0; i < selectedDates.Count; i++)
+                    {
+                        cnn.Execute($"delete from Werkdagen where Werkdagen.Datum = '{selectedDates[i]}' and Werkdagen.Begin_tijd = '{selectedDateTimes[i]}' and Werkdagen.PersId = {PersNr}");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
     }
 }

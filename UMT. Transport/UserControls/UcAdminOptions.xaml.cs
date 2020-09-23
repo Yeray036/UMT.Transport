@@ -99,5 +99,19 @@ namespace UMT.Transport.UserControls
                 MainWindow.mainWindow.MainFrame.Navigate(vacationPermissionPage);
             }
         }
+
+        private void OpenWrongWorkday_Btn(object sender, RoutedEventArgs e)
+        {
+            RemoveWrongWorkday RemoveWrongWorkdayPage = new RemoveWrongWorkday();
+            if (MainWindow.mainWindow.MainFrame.CanGoBack)
+            {
+                MainWindow.mainWindow.MainFrame.RemoveBackEntry();
+                MainWindow.mainWindow.MainFrame.Navigate(RemoveWrongWorkdayPage);
+            }
+            else
+            {
+                MainWindow.mainWindow.MainFrame.Navigate(RemoveWrongWorkdayPage);
+            }
+        }
     }
 }
