@@ -40,10 +40,10 @@
                     <TextBlock Text="Verlof aanvraag" Foreground="White"/>
                 </StackPanel>
             </Button>
-            <Button HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,10,0,0" Background="#263238" BorderBrush="#263238">
+            <Button HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Margin="0,10,0,0" Background="#263238" BorderBrush="#263238" Click="OpenWrongWorkday_Btn">
                 <StackPanel  HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Delete" Margin="0,0,5,0" Foreground="White"/>
-                    <TextBlock Text="Verwijder werk dag" Foreground="White"/>
+                    <TextBlock Text="Verwijder werkdag" Foreground="White"/>
                 </StackPanel>
             </Button>
         </StackPanel>

@@ -147,6 +147,9 @@
     <Compile Include="Pages\AdminPanel\EditAndOrRemoveEmployee.xaml.cs">
       <DependentUpon>EditAndOrRemoveEmployee.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\AdminPanel\RemoveWrongWorkday.xaml.cs">
+      <DependentUpon>RemoveWrongWorkday.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AdminPanel\VacationPermission.xaml.cs">
       <DependentUpon>VacationPermission.xaml</DependentUpon>
     </Compile>
@@ -181,6 +184,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\AdminPanel\EditAndOrRemoveEmployee.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\AdminPanel\RemoveWrongWorkday.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

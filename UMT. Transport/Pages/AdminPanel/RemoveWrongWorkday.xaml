@@ -1,0 +1,41 @@
+﻿<Page x:Class="UMT.Transport.Pages.AdminPanel.RemoveWrongWorkday"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:UMT.Transport.Pages.AdminPanel"
+      mc:Ignorable="d" 
+      d:DesignHeight="450" d:DesignWidth="800"
+      Title="RemoveWrongWorkday"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextElement.FontWeight="Regular"
+      TextElement.FontSize="15"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto"
+      FontFamily="{DynamicResource MaterialDesignFont}">
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Stretch">
+            <ComboBox materialDesign:HintAssist.Hint="Naam" Margin="0,10,0,0" x:Name="NameComboBox" SelectionChanged="InsertEmployeePersNrBasedOnName"/>
+            <TextBox materialDesign:HintAssist.Hint="Personeelsnummer" Margin="0,10,0,0" x:Name="PersNrTextbox"/>
+            <TextBlock Text="Geselecteerde werkdagen:" Margin="0,10,0,0"/>
+            <Border BorderThickness="1" BorderBrush="#FF969696">
+                <ListBox x:Name="SelectedWorkdaysListBox" Margin="0,10,0,0" PreviewKeyDown="RemoveSelectedItemFromList"/>
+            </Border>
+            <Button Margin="0,10,0,0" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="RemoveSelectedWorkdays">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <materialDesign:PackIcon Kind="Bin"/>
+                    <TextBlock Text="Verwijder werkdag(en)"/>
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <DataGrid Grid.Row="0" Grid.Column="1" x:Name="CurrentEmployeeWorkdays" Margin="10" CanUserAddRows="False" SelectedCellsChanged="GetSelectedWorkdays"/>
+    </Grid>
+</Page>

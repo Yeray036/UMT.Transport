@@ -105,4 +105,11 @@ namespace UMT.Transport.Classes
         public string AlmereInput { get; set; }
         public string LelystadInput { get; set; }
     }
+    public class CurrentWorkdaysEmployees
+    {
+        public string Datum { get; set; }
+        public string Begin_tijd { get; set; }
+        public string Eind_tijd { get; set; }
+        public string Functie { get; set; }
+    }
 }
