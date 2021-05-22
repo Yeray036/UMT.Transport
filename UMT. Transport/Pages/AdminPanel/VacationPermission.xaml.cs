@@ -18,6 +18,8 @@ namespace UMT.Transport.Pages.AdminPanel
 {
     /// <summary>
     /// Interaction logic for VacationPermission.xaml
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
     /// </summary>
     public partial class VacationPermission : Page
     {

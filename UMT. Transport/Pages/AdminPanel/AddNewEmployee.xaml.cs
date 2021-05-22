@@ -19,6 +19,8 @@ namespace UMT.Transport.Pages.AdminPanel
 {
     /// <summary>
     /// Interaction logic for AddNewEmployee.xaml
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
     /// </summary>
     public partial class AddNewEmployee : Page
     {
@@ -111,7 +113,7 @@ namespace UMT.Transport.Pages.AdminPanel
                     {
                         CompanyComboBox.Text = "";
                     }
-                    MessageBox.Show($"{VoornaamTextbox.Text} {AchternaamTextbox.Text} is toegevoed aan de database.");
+                    MessageBox.Show($"{VoornaamTextbox.Text} {AchternaamTextbox.Text} is toegevoegd aan de database.");
                     VoornaamTextbox.Text = null;
                     AchternaamTextbox.Text = null;
                     PersNrTextbox.Text = null;

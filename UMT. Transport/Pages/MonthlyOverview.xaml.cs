@@ -22,6 +22,8 @@ namespace UMT.Transport.Pages
 {
     /// <summary>
     /// Interaction logic for MonthlyOverview.xaml
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
     /// </summary>
     public partial class MonthlyOverview : Page
     {

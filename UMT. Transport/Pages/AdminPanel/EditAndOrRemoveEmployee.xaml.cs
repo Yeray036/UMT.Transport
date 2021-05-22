@@ -19,6 +19,8 @@ namespace UMT.Transport.Pages.AdminPanel
 {
     /// <summary>
     /// Interaction logic for EditAndOrRemoveEmployee.xaml
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
     /// </summary>
     public partial class EditAndOrRemoveEmployee : Page
     {
@@ -28,6 +30,7 @@ namespace UMT.Transport.Pages.AdminPanel
         public static bool Bilthoven;
         public static bool Almere;
         public static bool Lelystad;
+        static string selectedCompany { get; set; }
 
         public EditAndOrRemoveEmployee()
         {
@@ -218,6 +221,7 @@ namespace UMT.Transport.Pages.AdminPanel
             {
                 if (MessageBox.Show($"Weet je zeker dat je {NameComboBox.Text} {LastNameFieldComboBox.Text} wilt verwijderen {Environment.NewLine}en al zijn gewerkte dagen?", "Verwijder medewerker", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
                 {
+                    selectedCompany = this.CompanyComboBox.SelectedItem.ToString();
                     SqliteHandler.DeleteEmployee(this.PersNrTextbox.Text);
                     CurrentEmployeeListDataGrid.ItemsSource = SqliteHandler.SavedPersonReturnList;
                     ResetFunctieAndDepotSelection();
@@ -225,6 +229,7 @@ namespace UMT.Transport.Pages.AdminPanel
                     NameComboBox.ItemsSource = null;
                     LastNameFieldComboBox.Text = null;
                     PersNrTextbox.Text = null;
+                    CompanyComboBox.Text = null;
                 }
                 else
                 {
@@ -235,20 +240,41 @@ namespace UMT.Transport.Pages.AdminPanel
 
         private void FillNameComboBox(object sender, SelectionChangedEventArgs e)
         {
-            ResetFunctieAndDepotSelection();
-            List<string> names = new List<string>();
-            foreach (var item in SqliteHandler.LoadAllEmployeesOnName(this.CompanyComboBox.SelectedItem.ToString()))
+            List<string> names;
+            if (CompanyComboBox.Text != null)
             {
-                if (names.Contains(item))
+                ResetFunctieAndDepotSelection();
+                names = new List<string>();
+                foreach (var item in SqliteHandler.LoadAllEmployeesOnName(this.CompanyComboBox.SelectedItem.ToString()))
                 {
-                    continue;
+                    if (names.Contains(item))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        names.Add(item);
+                    }
                 }
-                else
-                {
-                    names.Add(item);
-                }
+                NameComboBox.ItemsSource = names;
             }
-            NameComboBox.ItemsSource = names;
+            else
+            {
+                names = new List<string>();
+                CompanyComboBox.ItemsSource = SqliteHandler.LoadAllCompanyNames();
+                foreach (var item in SqliteHandler.LoadAllEmployeesOnName(selectedCompany))
+                {
+                    if (names.Contains(item))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        names.Add(item);
+                    }
+                }
+                NameComboBox.ItemsSource = names;
+            }
         }
 
         private void PlaceLastNameBasedOnName(object sender, SelectionChangedEventArgs e)

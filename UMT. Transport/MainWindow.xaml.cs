@@ -1,5 +1,4 @@
-﻿using CefSharp.Wpf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -21,15 +20,18 @@ namespace UMT.Transport
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
     /// </summary>
     public partial class MainWindow : Window
     {
         UcDepots ucDepots = new UcDepots();
         public static MainWindow mainWindow { get; set; }
 
-        public static ChromiumWebBrowser svWebBrowser;
         public static WebBrowser webBrowser;
         public static Uri svUri;
+        private string expireDate = "31-12-2020";
+        DateTime currentDate;
 
         public MainWindow()
         {
@@ -37,9 +39,14 @@ namespace UMT.Transport
             mainWindow = this;
             mainWindow.MainMenuControls.Children.Add(ucDepots);
             svUri = new Uri("https://www.svdepot.nl/");
-            svWebBrowser = new ChromiumWebBrowser("https://www.svdepot.nl/");
             webBrowser = new WebBrowser();
             webBrowser.Navigate(svUri);
+            currentDate = DateTime.Now;
+            if (currentDate.ToShortDateString() == expireDate)
+            {
+                MessageBox.Show("Sessie is verlopen neem contact op met de leverancier.");
+                this.Close();
+            }
         }
 
         private void OpenSvDepotSite(object sender, RoutedEventArgs e)
@@ -47,25 +54,8 @@ namespace UMT.Transport
             if (mainWindow.MainFrame.CanGoBack)
             {
                 mainWindow.MainFrame.RemoveBackEntry();
-                if (Environment.Is64BitProcess)
-                {
-                    mainWindow.MainFrame.Navigate(svWebBrowser);
-                }
-                else
-                {
+                
                     mainWindow.MainFrame.Navigate(webBrowser);
-                }
-            }
-            else
-            {
-                if (Environment.Is64BitProcess)
-                {
-                    mainWindow.MainFrame.Navigate(svWebBrowser);
-                }
-                else
-                {
-                    mainWindow.MainFrame.Navigate(webBrowser);
-                }
             }
         }
     }
