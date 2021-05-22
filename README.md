@@ -1,9 +1,34 @@
 # UMT.Transport
-Umit transport, Bilthoven
+UMT transport, Bilthoven
 
-CURRENT CODE COUNT:
+Maintainability
 ===================
-      4378
+      83
+===================
+
+Cyclomatic Complexity
+===================
+      729
+===================
+
+Depth of Inheritance
+===================
+      9
+===================
+
+Class Coupling
+===================
+      109
+===================
+
+Lines of Source Code
+===================
+      4501
+===================
+
+Lines of Executable code
+===================
+      1101
 ===================
 
 ====26-8-2020====
