@@ -17,6 +17,8 @@ namespace UMT.Transport.UserControls
 {
     /// <summary>
     /// Interaction logic for UcFunctions.xaml
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
     /// </summary>
     public partial class UcFunctions : UserControl
     {

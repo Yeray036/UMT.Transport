@@ -7,6 +7,9 @@ using System.Windows.Controls;
 
 namespace UMT.Transport.Classes
 {
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
+
     public class PersonModel
     {
         public string Bedrijfsnaam { get; set; }
@@ -111,5 +114,10 @@ namespace UMT.Transport.Classes
         public string Begin_tijd { get; set; }
         public string Eind_tijd { get; set; }
         public string Functie { get; set; }
+    }
+
+    public class ExpireTime
+    {
+        public int expireHasCount { get; set; }
     }
 }

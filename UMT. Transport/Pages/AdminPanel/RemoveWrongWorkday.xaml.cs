@@ -21,6 +21,8 @@ namespace UMT.Transport.Pages.AdminPanel
 {
     /// <summary>
     /// Interaction logic for RemoveWrongWorkday.xaml
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
     /// </summary>
     public partial class RemoveWrongWorkday : Page
     {
@@ -77,26 +79,55 @@ namespace UMT.Transport.Pages.AdminPanel
             {
                 List<string> selectedWorkdaysList = new List<string>();
                 List<string> selectedWorkdaysListTime = new List<string>();
+                List<string> selectedWorkdaysListBoxItems = new List<string>();
                 foreach (var item in SelectedWorkdaysListBox.Items)
                 {
-                    var onlyDate = item.ToString().Split('>');
+                    selectedWorkdaysListBoxItems.Add(item.ToString());
+                }
+                for (int i = 0; i < selectedWorkdaysListBoxItems.Count; i++)
+                {
+                    var onlyDate = selectedWorkdaysListBoxItems[i].ToString().Split('>');
                     string ConvertedDate = onlyDate[0].ToString().Replace('-', '/');
                     DateTime dt = Convert.ToDateTime(ConvertedDate);
-                    if (selectedWorkdaysList.Contains($"{dt.Year}-{dt.Month}-{dt.Day}"))
+                    string day = dt.Day.ToString();
+                    if (dt.Day.ToString().Length == 1)
                     {
-                        continue;
+                        day = $"0{day}";
+                        if (selectedWorkdaysList.Contains($"{dt.Year}-{dt.Month}-{day}"))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            selectedWorkdaysList.Add($"{dt.Year}-{dt.Month}-{day}");
+                        }
+                        if (selectedWorkdaysListTime.Contains($"{onlyDate[1]}"))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            selectedWorkdaysListTime.Add(onlyDate[1].ToString());
+                        }
                     }
                     else
                     {
-                        selectedWorkdaysList.Add($"{dt.Year}-{dt.Month}-{dt.Day}");
-                    }
-                    if (selectedWorkdaysListTime.Contains($"{onlyDate[1]}"))
-                    {
-                        continue;
-                    }
-                    else
-                    {
-                        selectedWorkdaysListTime.Add(onlyDate[1].ToString());
+                        if (selectedWorkdaysList.Contains($"{dt.Year}-{dt.Month}-{dt.Day}"))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            selectedWorkdaysList.Add($"{dt.Year}-{dt.Month}-{dt.Day}");
+                        }
+                        if (selectedWorkdaysListTime.Contains($"{onlyDate[1]}"))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            selectedWorkdaysListTime.Add(onlyDate[1].ToString());
+                        }
                     }
                 }
                 if (PersNrTextbox.Text != string.Empty)

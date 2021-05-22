@@ -19,6 +19,8 @@ namespace UMT.Transport.UserControls
 {
     /// <summary>
     /// Interaction logic for UcAdminOptions.xaml
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
     /// </summary>
     public partial class UcAdminOptions : UserControl
     {

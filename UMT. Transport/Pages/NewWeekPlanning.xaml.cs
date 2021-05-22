@@ -22,6 +22,8 @@ namespace UMT.Transport.Pages
 {
     /// <summary>
     /// Interaction logic for NewWeekPlanning.xaml
+    /// SOFTWARE CREATED BY Yeray Guzmán Padrón.
+    /// GITHUB: https://github.com/yeray036
     /// </summary>
     public partial class NewWeekPlanning : Page
     {
@@ -30,6 +32,8 @@ namespace UMT.Transport.Pages
         public static DateTime year;
         public static Calendar calendar;
         public static DateTime DayAndMonth;
+        List<string> employeeFunctions;
+        static string datum;
 
         public NewWeekPlanning()
         {
@@ -154,16 +158,37 @@ namespace UMT.Transport.Pages
                 DateTime date = calendar.SelectedDate.Value;
                 DayAndMonth = calendar.SelectedDate.Value;
                 this.DatumInputBox.Text = $"{date.Year}-{date.Month}-{date.Day}";
+                string[] checkDate = this.DatumInputBox.Text.Split('-');
+                if (checkDate[2].Length == 1)
+                {
+                    datum = $"{checkDate[0]}-{checkDate[1]}-0{checkDate[2]}";
+                }
                 year = calendar.SelectedDate.Value;
                 if (UcFunctions.SelectedFunction == "AllEmployees")
                 {
-                    AllEmployees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Year}-{date.Month}-{date.Day}"));
-                    DayDataGrid.ItemsSource = AllEmployees;
+                    if (date.Day.ToString().Length == 1)
+                    {
+                        AllEmployees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate(datum));
+                        DayDataGrid.ItemsSource = AllEmployees;
+                    }
+                    else
+                    {
+                        AllEmployees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Year}-{date.Month}-{date.Day}"));
+                        DayDataGrid.ItemsSource = AllEmployees;
+                    }
                 }
                 else
                 {
-                    employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Year}-{date.Month}-{date.Day}"));
-                    DayDataGrid.ItemsSource = employees;
+                    if (date.Day.ToString().Length == 1)
+                    {
+                        employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate(datum));
+                        DayDataGrid.ItemsSource = employees;
+                    }
+                    else
+                    {
+                        employees = await Task.Run(() => SqliteHandler.LoadEmployeesOnDate($"{date.Year}-{date.Month}-{date.Day}"));
+                        DayDataGrid.ItemsSource = employees;
+                    }
                 }
             }
         }
@@ -175,8 +200,8 @@ namespace UMT.Transport.Pages
                 var PersNr = SqliteHandler.LoadEmployeePersNr(NameFieldComboBox.SelectedItem.ToString(), LastNameFieldComboBox.SelectedValue.ToString());
                 PersNrTextField.Text = PersNr[0];
                 FunctieNames();
-                List<string> employeeFunctions = new List<string>();
-                if (FunctieNames().ToList() != null)
+                employeeFunctions = new List<string>();
+                if (FunctieNames() != null)
                 {
                     if (EmployeeHasFunctie.Bezorger == 1)
                     {
@@ -191,6 +216,10 @@ namespace UMT.Transport.Pages
                         employeeFunctions.Add("Depotpersoneel");
                     }
                     FunctieFieldComboBox.ItemsSource = employeeFunctions;
+                }
+                else
+                {
+                    return;
                 }
             }
         }
@@ -248,6 +277,20 @@ namespace UMT.Transport.Pages
                     employee.Functie = 2;
                     break;
                 case "Depotpersoneel":
+                    employee.Functie = 3;
+                    break;
+                default:
+                    break;
+            }
+            switch (UcFunctions.SelectedFunction)
+            {
+                case "Bezorger":
+                    employee.Functie = 1;
+                    break;
+                case "SorteerWerk":
+                    employee.Functie = 2;
+                    break;
+                case "DepotWerk":
                     employee.Functie = 3;
                     break;
                 default:
